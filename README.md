@@ -1,8 +1,8 @@
 ### Dependencies
-//Install Expo
+#### Install Expo
 npm install -g expo-cli
 
-// Eslint
+#### Eslint
 npm install eslint --save-dev
 
 base) npx eslint --init
@@ -28,3 +28,5 @@ npm install --save-dev --save-exact prettier
 
 ### Run the project
 npm start
+Then, press i to use iOS emulator or press a to use Android emulator.
+You can also download "Expo Go" app to test the QueueApp in your mobile phone. 
