@@ -26,6 +26,19 @@ npm install @react-native-community/eslint-config --save-dev
 
 npm install --save-dev --save-exact prettier
 
+### install react-navigation
+npm install @react-navigation/bottom-tabs
+npm i @react-navigation/native
+
+<!-- ### install @expo/vector-icons
+npm i @expo/vector-icons -->
+
+### install react-native-vector-icons
+npm i react-native-vector-icons
+
+### install react native elements
+npm install @rneui/themed @rneui/base
+
 ### Run the project
 npm start
 Then, press i to use iOS emulator or press a to use Android emulator.
