@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import React, { useState } from 'react';
 import { SearchBar, Button, Card, Image } from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import CategoryCard from '../components/CategoryCard.js';
+import ShopNearYouCard from '../components/ShopNearYouCard.js';
 
 export default function Home() {
     const [search, setSearch] = useState("");
@@ -30,43 +32,17 @@ export default function Home() {
             <Text style={{fontSize: 18, fontWeight: 600, color: "white"}}><Ionicons name="calendar-outline" size={22} color={"white"} /> You have 1 booking today</Text>
         </View>
         <View style={styles.category} >
-            <TouchableOpacity style={styles.card} onPress={()=>{console.log("Beauty is chosen")}}>
-                <Image style={styles.image} source={{uri: "https://img.freepik.com/free-photo/beautiful-face-young-adult-asian-woman-with-clean-fresh-skin-isolated-white_658552-145.jpg?w=900&t=st=1704637200~exp=1704637800~hmac=75088b1ef3b44d2b461a32c6c441f942dc5f8dc0910ca613ece4ab27ce2b990d" }} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                        BEAUTY
-                    </Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={()=>{console.log("Spa & Message is chosen")}}>
-                <Image style={styles.image} source={{uri: "https://img.freepik.com/free-photo/beauty-spa_144627-46177.jpg?w=900&t=st=1704638730~exp=1704639330~hmac=403dffc8be9844b41fada6488763434e906d562b45e8114f66cd35d79b5cf6d0" }} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                        SPA & MASSAGE
-                    </Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={()=>{console.log("Clinic is chosen")}}>
-                <Image style={styles.image} source={{uri: "https://img.freepik.com/free-photo/room-with-equipment-clinic-dermatology-cosmetology_157027-3267.jpg?t=st=1704615813~exp=1704619413~hmac=539834df62a390c1e706c8fe96cc5efd47c89fe0ef42ba2f1a8bb11ba50d5de0&w=1060" }} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                        CLINIC
-                    </Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.card} onPress={()=>{console.log("Alternative Therapy is chosen")}}>
-                <Image style={styles.image} source={{uri: "https://img.freepik.com/free-photo/hands-held-hearts-touched-love-shared-outdoors-generated-by-ai_188544-10801.jpg?t=st=1704640985~exp=1704644585~hmac=d5ae1d5ecf632a7571c1bb61375a239f15f6c903c12a4c3d634d0c6b335996ca&w=1060" }} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>
-                        ALTERNATIVE THERAPY
-                    </Text>
-                </View>
-            </TouchableOpacity>
+            <CategoryCard categoryName={"BEAUTY"} imageUri={"https://img.freepik.com/free-photo/beautiful-face-young-adult-asian-woman-with-clean-fresh-skin-isolated-white_658552-145.jpg?w=900&t=st=1704637200~exp=1704637800~hmac=75088b1ef3b44d2b461a32c6c441f942dc5f8dc0910ca613ece4ab27ce2b990d"}/>
+            <CategoryCard categoryName={"SPA & MASSAGE"} imageUri={"https://img.freepik.com/free-photo/beauty-spa_144627-46177.jpg?w=900&t=st=1704638730~exp=1704639330~hmac=403dffc8be9844b41fada6488763434e906d562b45e8114f66cd35d79b5cf6d0"}/>
+            <CategoryCard categoryName={"CLINIC"} imageUri={"https://img.freepik.com/free-photo/room-with-equipment-clinic-dermatology-cosmetology_157027-3267.jpg?t=st=1704615813~exp=1704619413~hmac=539834df62a390c1e706c8fe96cc5efd47c89fe0ef42ba2f1a8bb11ba50d5de0&w=1060"}/>
+            <CategoryCard categoryName={"ALTERNATIVE THERAPY"} imageUri={"https://img.freepik.com/free-photo/hands-held-hearts-touched-love-shared-outdoors-generated-by-ai_188544-10801.jpg?t=st=1704640985~exp=1704644585~hmac=d5ae1d5ecf632a7571c1bb61375a239f15f6c903c12a4c3d634d0c6b335996ca&w=1060"}/>
         </View>
         <View style={styles.shopNearYou}>
             <Text>Shop Near You</Text>
+            <ShopNearYouCard shopName={"Beautiful Nail"} serviceCategory={"nail"} farness={"2km"} priceRange={"$ - $$"} star={4.3} reviewNo={5} imageUri={"https://img.freepik.com/free-photo/still-life-assortment-nail-care-products_23-2148974547.jpg?w=900&t=st=1704687221~exp=1704687821~hmac=c5dcc80e0a8acc5f25e82745129978459fba066ec18a1ec85ced87f7b379999b"}/>
+            <ShopNearYouCard shopName={"Perfect Nail"} serviceCategory={"nail"} farness={"5km"} priceRange={"$$ - $$$"} star={4.2} reviewNo={120} imageUri={"https://img.freepik.com/free-photo/nail-tech-filing-nails-with-nail-file-professional-manicure-tools_176420-11581.jpg?w=900&t=st=1704686824~exp=1704687424~hmac=dd1e18cc6084d35fb9b7cff98b818c94f7a629d4df9cf49ea754592bd68f2630"}/>
+            <ShopNearYouCard shopName={"Thai Spa"} serviceCategory={"massage"} farness={"5km"} priceRange={"$ - $$"} star={4} reviewNo={0} imageUri={"https://img.freepik.com/free-photo/young-beautiful-woman-relaxing-during-spa-treatment_1150-3094.jpg?w=900&t=st=1704686772~exp=1704687372~hmac=9e35dffc081792a430ffd25b96da085e53e521cfbeb139adf7aa95a43f681e1d"}/>
         </View>
-        
       </ScrollView>
     );
   }
@@ -110,6 +86,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent:"center",
         columnGap: 10
+    },
+    shadowProp: {
+        shadowOffset: { width: 12, height: 10 },
+        shadowColor: 'black',
+        shadowOpacity: 0.6,
+        elevation: 5,
     },
     categoryName: {
         fontSize: 18,
