@@ -11,7 +11,7 @@ const ShopNearYouCard = ({ navigation, shopName, serviceCategory, farness, price
     // const navigation = useNavigation()
     return (
     // <View style={styles.container}>
-    <TouchableOpacity style={[styles.card, styles.shadowProp]} onPress={() => {navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory})}}>
+    <TouchableOpacity style={[styles.card, styles.shadowProp]} onPress={() => {navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
         <View style={styles.info}>
             <View style={styles.detailsContainer}>
                 <Text style={[styles.shopNameText, styles.text]}>
