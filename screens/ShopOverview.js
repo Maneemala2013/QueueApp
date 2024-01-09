@@ -32,7 +32,9 @@ export default function ShopOverview({route, navigation}) {
                         <Ionicons name='star' size={25} color={"purple"}/>
                         <Text>{'\t'}{star} {reviewNo != 0 ? `(${reviewNo} reviews)` : "(new shop!)" }</Text>
                     </View>
-                    <Ionicons name='arrow-forward-sharp' size={25} color={"tomato"}/>
+                    <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: `Ratings and Reviews - ${shopName}`, star: star, reviewNo: reviewNo})}}>
+                        <Ionicons name='arrow-forward-sharp' size={25} color={"tomato"}/>
+                    </Button>
                 </View>
             </View>
             <View style={styles.sectionContainer}>
