@@ -27,8 +27,18 @@ npm install @react-native-community/eslint-config --save-dev
 npm install --save-dev --save-exact prettier
 
 ### install react-navigation
+--> for bottom tabs
 npm install @react-navigation/bottom-tabs
 npm i @react-navigation/native
+
+--> for stack navigation
+npm install react-navigation --save
+npm install @react-navigation/stack --save
+npm install react-native-gesture-handler --save
+npm install @react-navigation/native-stack
+
+### install Safe Area Context
+npm install react-native-safe-area-context
 
 <!-- ### install @expo/vector-icons
 npm i @expo/vector-icons -->

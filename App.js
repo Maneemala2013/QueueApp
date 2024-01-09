@@ -1,6 +1,7 @@
 // Ref:
 // Tab Navigation: https://reactnavigation.org/docs/tab-based-navigation/
 // Icons: https://ionic.io/ionicons
+// Multiple Navigators: https://www.youtube.com/watch?v=s7ackFpN-GU
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,42 +11,26 @@ import Notification from './screens/Notification.js';
 import Settings from './screens/Settings.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ShopOverview from './screens/ShopOverview.js';
+import TabNavigation from './navigation.js/TabNavigation.js';
+import HomeStack from './navigation.js/TabNavigation.js';
 
+// const Drawer = createDrawerNavigator()
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <SafeAreaView style={{flex: 1}}>
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'home'
-                : 'home-outline';
-            } else if (route.name === 'Booking') {
-              iconName = focused ? 'calendar' : 'calendar-outline';
-            } else if (route.name === 'Notification') {
-              iconName = focused ? 'notifications' : 'notifications-outline';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'settings' : 'settings-outline';
-            }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Booking" component={Booking} />
-        <Tab.Screen name="Notification" component={Notification} />
-        <Tab.Screen name="Settings" component={Settings} />
-      </Tab.Navigator>
+      <Stack.Navigator initialRouteName='Home3'>
+        <Stack.Screen name="Home3" component={TabNavigation} options={{headerShown: false}}/>
+        <Stack.Screen name="ShopOverview" component={ShopOverview}/>
+      </Stack.Navigator>
     </NavigationContainer>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

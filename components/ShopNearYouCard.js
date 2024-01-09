@@ -2,10 +2,13 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Image } from "@rneui/themed";
-const ShopNearYouCard = ({ shopName, serviceCategory, farness, priceRange, star, reviewNo, imageUri }) => {
-  return (
+import { useNavigation } from "@react-navigation/native";
+
+const ShopNearYouCard = ({ navigation, shopName, serviceCategory, farness, priceRange, star, reviewNo, imageUri }) => {
+    // const navigation = useNavigation()
+    return (
     // <View style={styles.container}>
-    <TouchableOpacity style={[styles.card, styles.shadowProp]}>
+    <TouchableOpacity style={[styles.card, styles.shadowProp]} onPress={() => {navigation.navigate("ShopOverview")}}>
         <View style={styles.info}>
             <View style={styles.detailsContainer}>
                 <Text style={[styles.shopNameText, styles.text]}>
