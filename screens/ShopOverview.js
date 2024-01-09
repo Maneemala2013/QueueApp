@@ -8,6 +8,7 @@ import { Button } from '@rneui/themed';
 const Stack = createNativeStackNavigator();
 
 export default function ShopOverview({route, navigation}) {
+    const shopName = route.params.name
     const serviceCategory = route.params.serviceCategory
     const farness = route.params.farness
     const star = route.params.star
@@ -20,16 +21,16 @@ export default function ShopOverview({route, navigation}) {
                 <View style={styles.rowContainer}>
                     <View style={styles.moreInfoText}>
                         <Ionicons name='information-circle' size={25} color={"purple"}/>
-                        <Text> More info</Text>
+                        <Text>{'\t'}More info</Text>
                     </View>
-                    <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: "More Info"})}}>
+                    <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: `More Info - ${shopName}`})}}>
                         <Ionicons name='arrow-forward-sharp' size={25} color={"tomato"}/>
                     </Button>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.moreInfoText}>
                         <Ionicons name='star' size={25} color={"purple"}/>
-                        <Text> {star} {reviewNo != 0 ? `(${reviewNo} reviews)` : "(new shop!)" }</Text>
+                        <Text>{'\t'}{star} {reviewNo != 0 ? `(${reviewNo} reviews)` : "(new shop!)" }</Text>
                     </View>
                     <Ionicons name='arrow-forward-sharp' size={25} color={"tomato"}/>
                 </View>

@@ -2,7 +2,7 @@
 
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import React, { useState } from 'react';
-import { SearchBar, Button, Card, Image } from '@rneui/themed';
+import { SearchBar, Button } from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CategoryCard from '../components/CategoryCard.js';
 import ShopNearYouCard from '../components/ShopNearYouCard.js';
@@ -39,7 +39,7 @@ export default function Home({navigation}) {
         </View>
         <View style={styles.shopNearYou}>
             <Text>Shop Near You</Text>
-            <ShopNearYouCard navigation={navigation} shopName={"Beautiful Nail"} serviceCategory={"nail"} farness={"2km"} priceRange={"$ - $$"} star={4.3} reviewNo={5} imageUri={"https://img.freepik.com/free-photo/still-life-assortment-nail-care-products_23-2148974547.jpg?w=900&t=st=1704687221~exp=1704687821~hmac=c5dcc80e0a8acc5f25e82745129978459fba066ec18a1ec85ced87f7b379999b"}/>
+            <ShopNearYouCard navigation={navigation} shopName={"Oh La La Nails"} serviceCategory={"nail"} farness={"2km"} priceRange={"$ - $$"} star={4.3} reviewNo={5} imageUri={"https://img.freepik.com/free-photo/still-life-assortment-nail-care-products_23-2148974547.jpg?w=900&t=st=1704687221~exp=1704687821~hmac=c5dcc80e0a8acc5f25e82745129978459fba066ec18a1ec85ced87f7b379999b"}/>
             <ShopNearYouCard navigation={navigation} shopName={"Perfect Nail"} serviceCategory={"nail"} farness={"5km"} priceRange={"$$ - $$$"} star={4.2} reviewNo={120} imageUri={"https://img.freepik.com/free-photo/nail-tech-filing-nails-with-nail-file-professional-manicure-tools_176420-11581.jpg?w=900&t=st=1704686824~exp=1704687424~hmac=dd1e18cc6084d35fb9b7cff98b818c94f7a629d4df9cf49ea754592bd68f2630"}/>
             <ShopNearYouCard navigation={navigation} shopName={"Thai Spa"} serviceCategory={"massage"} farness={"5km"} priceRange={"$ - $$"} star={4} reviewNo={0} imageUri={"https://img.freepik.com/free-photo/young-beautiful-woman-relaxing-during-spa-treatment_1150-3094.jpg?w=900&t=st=1704686772~exp=1704687372~hmac=9e35dffc081792a430ffd25b96da085e53e521cfbeb139adf7aa95a43f681e1d"}/>
         </View>

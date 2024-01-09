@@ -13,7 +13,7 @@ export default function ItemOffer({title, time, discountedPrice, price}) {
             <View style={styles.rowContainer}>
                 <View style={styles.moreInfoText}>
                     <Ionicons name='time' size={25} color={"purple"}/>
-                    <Text> {time}</Text>
+                    <Text>{'\t'}{time}</Text>
                 </View>
                 <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}}>
                     <Text style={{fontWeight: "bold"}}>Book</Text>
@@ -22,8 +22,8 @@ export default function ItemOffer({title, time, discountedPrice, price}) {
             <View style={[styles.rowContainer, {marginBottom: 5}]}>
                 <View style={styles.moreInfoText}>
                     <Ionicons name='pricetag' size={25} color={"purple"}/>
-                    {discountedPrice != -1 ? <Text style={{textDecorationLine: "line-through"}}> $ {discountedPrice}</Text> : <Text> $ {price}</Text>}
-                    {discountedPrice != -1 && <Text> $ {price}</Text>}
+                    {discountedPrice != -1 ? <Text style={{textDecorationLine: "line-through"}}>{'\t'}$ {discountedPrice}</Text> : <Text>{'\t'}$ {price}</Text>}
+                    {discountedPrice != -1 && <Text>{'\t'}$ {price}</Text>}
                 </View>
             </View>
             <Divider width={1}/>
