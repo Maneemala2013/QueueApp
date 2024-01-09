@@ -1,3 +1,6 @@
+// Ref : 
+// React-native : Dynamically update header title in stack navigator:
+// https://stackoverflow.com/questions/46200454/react-native-dynamically-update-header-title-in-stack-navigator
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,7 +11,7 @@ const ShopNearYouCard = ({ navigation, shopName, serviceCategory, farness, price
     // const navigation = useNavigation()
     return (
     // <View style={styles.container}>
-    <TouchableOpacity style={[styles.card, styles.shadowProp]} onPress={() => {navigation.navigate("ShopOverview")}}>
+    <TouchableOpacity style={[styles.card, styles.shadowProp]} onPress={() => {navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory})}}>
         <View style={styles.info}>
             <View style={styles.detailsContainer}>
                 <Text style={[styles.shopNameText, styles.text]}>

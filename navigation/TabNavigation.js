@@ -60,7 +60,7 @@ export default function HomeStack() {
                     headerShown: false,
                 }}
             />
-            <Stack.Screen name="ShopOverview" component={ShopOverview}/>
+            <Stack.Screen name="ShopOverview" component={ShopOverview} options={({ route }) => ({ title: route.params.name })}/>
         </Stack.Navigator>
     )
   }

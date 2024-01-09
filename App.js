@@ -14,8 +14,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ShopOverview from './screens/ShopOverview.js';
-import TabNavigation from './navigation.js/TabNavigation.js';
-import HomeStack from './navigation.js/TabNavigation.js';
+import TabNavigation from './navigation/TabNavigation.js';
+import HomeStack from './navigation/TabNavigation.js';
 
 // const Drawer = createDrawerNavigator()
 const Tab = createBottomTabNavigator();
@@ -27,7 +27,6 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home3'>
         <Stack.Screen name="Home3" component={TabNavigation} options={{headerShown: false}}/>
-        <Stack.Screen name="ShopOverview" component={ShopOverview}/>
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>
