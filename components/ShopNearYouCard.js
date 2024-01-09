@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     shadowProp: {
-        shadowOffset: { width: 12, height: 10 },
+        shadowOffset: { width: 3, height: 3 },
         shadowColor: 'black',
-        shadowOpacity: 0.6,
+        shadowOpacity: 0.3,
         elevation: 5,
     },
     info: {
@@ -58,13 +58,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "center",
         alignItems: "center",
-        shadowColor: "black",
-        shadowOffset: {
-            width: 6,
-            height: 6
-        },
-        shadowOpacity: 0.6,
-        shadowRadius: 0.5
     },
     imageContainer: {
         width: "30%",

@@ -20,16 +20,29 @@ export default function Home({navigation}) {
             placeholder="Search..."
             onChangeText={updateSearch}
             lightTheme={true}
+            platform='ios'
             value={search}
             />
             <View style={styles.filter}>
-            <Button radius={"sm"} type="solid" buttonStyle={{backgroundColor: "#c3cbd9"}}>
-                <Ionicons name="filter" size={30}/>
+            <Button radius={"md"} type="solid" buttonStyle={{backgroundColor: "#c3cbd9"}}>
+                <Ionicons name="filter" size={25}/>
             </Button>
             </View>
         </View>
         <View style={styles.noti}>
-            <Text style={{fontSize: 18, fontWeight: 600, color: "white"}}><Ionicons name="calendar-outline" size={22} color={"white"} /> You have 1 booking today</Text>
+            <Text style={{fontSize: 16, fontWeight: 500, color: "black"}}>You have 1 booking today</Text>
+            <View style={styles.infoText}>
+                <Ionicons name='time' size={25} color={"purple"}/>
+                <Text>{'\t'}Mon - Thu 10:00 - 20:00</Text>
+            </View>
+            <View style={styles.infoText}>
+                <Ionicons name='information' size={25} color={"purple"}/>
+                <Text>{'\t'}Manicure and hand spa</Text>
+            </View>
+            <View style={styles.infoText}>
+                <Ionicons name='location' size={25} color={"purple"}/>
+                <Text>{'\t'}Oh La La Nails</Text>
+            </View>
         </View>
         <View style={styles.category} >
             <CategoryCard categoryName={"BEAUTY"} imageUri={"https://img.freepik.com/free-photo/beautiful-face-young-adult-asian-woman-with-clean-fresh-skin-isolated-white_658552-145.jpg?w=900&t=st=1704637200~exp=1704637800~hmac=75088b1ef3b44d2b461a32c6c441f942dc5f8dc0910ca613ece4ab27ce2b990d"}/>
@@ -60,6 +73,7 @@ const styles = StyleSheet.create({
     },
     search: {
         width: "80%",
+        backgroundColor: "transparent",
     },
     filter: {
         width: "14%",
@@ -72,10 +86,14 @@ const styles = StyleSheet.create({
         marginHorizontal: "4%",
         padding: 15,
         marginBottom: 10,
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
         borderRadius: 8,
-        backgroundColor: "rgba(0, 0, 0, 0.35)"
+        backgroundColor: "rgba(250, 161, 102, 0.4)",
+    },
+    infoText: {
+        flexDirection: "row",
+        alignItems: "center",
     },
     category: {
         height: "auto",
@@ -88,9 +106,9 @@ const styles = StyleSheet.create({
         columnGap: 10
     },
     shadowProp: {
-        shadowOffset: { width: 12, height: 10 },
+        shadowOffset: { width: 3, height: 3 },
         shadowColor: 'black',
-        shadowOpacity: 0.6,
+        shadowOpacity: 0.3,
         elevation: 5,
     },
     categoryName: {
@@ -105,17 +123,14 @@ const styles = StyleSheet.create({
         backgroundColor : '#FFFFFF',
         justifyContent: "flex-start"
     },
-
     image : {
         width : '100%',
         height : '80%'
     },
-
     textContainer : {
         alignItems : 'center',
         justifyContent: "flex-start"
     },
-
     text : {
         fontWeight : 'bold',
         fontSize : 12,

@@ -17,9 +17,9 @@ const CategoryCard = ({ categoryName, imageUri }) => {
 
 const styles = StyleSheet.create({
     shadowProp: {
-        shadowOffset: { width: 12, height: 10 },
+        shadowOffset: { width: 3, height: 3 },
         shadowColor: 'black',
-        shadowOpacity: 0.6,
+        shadowOpacity: 0.3,
         elevation: 5,
     },
     card : {
