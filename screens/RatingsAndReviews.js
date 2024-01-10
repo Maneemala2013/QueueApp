@@ -6,8 +6,10 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LinearProgress } from '@rneui/themed';
+import ReviewsCard from '../components/ReviewsCard';
 
 export default function RatingsAndReviews({route, navigation}) {
+    const shopName = route.params.name
     let star = route.params.star
     const reviewNo = route.params.reviewNo
     const initialArr = [{star: 5, val: 43}, {star: 4, val: 20}, {star: 3, val: 30}, {star: 2, val: 5}, {star: 1, val: 2}]
@@ -26,7 +28,7 @@ export default function RatingsAndReviews({route, navigation}) {
                         return (
                             <View style={styles.ratingsStack}>
                                 <Text>{data.star}</Text>
-                                <LinearProgress key={idx}
+                                <LinearProgress key={data.star+shopName}
                                 value={data.val/100}
                                 animation={false}
                                 style={styles.bar}
@@ -39,6 +41,11 @@ export default function RatingsAndReviews({route, navigation}) {
                 </View>
             </View>
             <Text style={styles.headerText}>Reviews</Text>
+            <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent bibendum nulla nibh"}/>
+            <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"Lorem ipsum"}/>
+            <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "}/>
+            <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"Habcd"}/>
+            <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus "}/>
         </ScrollView>
     );
   }
