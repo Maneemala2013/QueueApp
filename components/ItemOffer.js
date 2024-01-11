@@ -5,48 +5,67 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CategoryCard from '../components/CategoryCard.js';
 import ShopNearYouCard from '../components/ShopNearYouCard.js';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+    useFonts,
+    Rubik_400Regular,
+    Rubik_600SemiBold
+  } from '@expo-google-fonts/rubik';
+import {Clock, Tag} from "phosphor-react-native"
 
-export default function ItemOffer({title, time, discountedPrice, price}) {
-    return (
-        <View style={styles.itemOfferContainer}>
-            <Text style={styles.title}>{title}</Text>
-            <View style={styles.rowContainer}>
-                <View style={styles.moreInfoText}>
-                    <Ionicons name='time' size={25} color={"purple"}/>
-                    <Text>{'\t'}{time}</Text>
+export default function ItemOffer({route, navigation, title, time, discountedPrice, price}) {
+    let [fontsLoaded] = useFonts({
+        Rubik_400Regular,
+        Rubik_600SemiBold
+      });
+    
+    if (!fontsLoaded) {
+    return (<View style={styles.itemOfferContainer}></View>)
+    } else {
+        return (
+            <View style={styles.itemOfferContainer}>
+                <Text style={styles.title}>{title}</Text>
+                <View style={styles.rowContainer}>
+                    <View style={styles.moreInfoText}>
+                        <Clock size={18} color={"#938FC7"} weight="fill"/>
+                        <Text style={styles.text}>{'\t'}{time}</Text>
+                    </View>
+                    <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}} onPress={() => {navigation.navigate("BookingForm", {name: title, time: time, discountedPrice: discountedPrice, price: price})}}>
+                        <Text style={{fontFamily: "Rubik_600SemiBold", fontSize: 16}}>Book</Text>
+                    </Button>
                 </View>
-                <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}}>
-                    <Text style={{fontWeight: "bold"}}>Book</Text>
-                </Button>
-            </View>
-            <View style={[styles.rowContainer, {marginBottom: 5}]}>
-                <View style={styles.moreInfoText}>
-                    <Ionicons name='pricetag' size={25} color={"purple"}/>
-                    {discountedPrice != -1 ? <Text style={{textDecorationLine: "line-through"}}>{'\t'}$ {discountedPrice}</Text> : <Text>{'\t'}$ {price}</Text>}
-                    {discountedPrice != -1 && <Text>{'\t'}$ {price}</Text>}
+                <View style={[styles.rowContainer, {marginBottom: 10}]}>
+                    <View style={styles.moreInfoText}>
+                        <Tag size={18} color={"#938FC7"} weight='fill'/>
+                        {discountedPrice != -1 ? <Text style={[styles.text, {textDecorationLine: "line-through", color: "#8B8585"}]}>{'\t'}$ {discountedPrice}</Text> : <Text>{'\t'}$ {price}</Text>}
+                        {discountedPrice != -1 && <Text style={styles.text}>{'\t'}$ {price}</Text>}
+                    </View>
                 </View>
+                <Divider width={2} color="#DEDEDE"/>
             </View>
-            <Divider width={1}/>
-        </View>
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({
     itemOfferContainer: {
-        marginBottom: 5
+        marginBottom: 10
     },
     title: {
         fontSize: 16,
-        fontWeight: "500"
+        fontFamily: "Rubik_400Regular"
     },
     rowContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        margin: 3
+        marginVertical: 2
     },
     moreInfoText: {
         flexDirection: "row",
         alignItems: "center",
+    },
+    text: {
+        fontSize: 14,
+        fontFamily: "Rubik_400Regular"
     }
 })

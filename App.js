@@ -16,21 +16,59 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ShopOverview from './screens/ShopOverview.js';
 import TabNavigation from './navigation/TabNavigation.js';
 import HomeStack from './navigation/TabNavigation.js';
+// import {
+//   useFonts,
+//   Rubik_300Light,
+//   Rubik_400Regular,
+//   Rubik_500Medium,
+//   Rubik_600SemiBold,
+//   Rubik_700Bold,
+//   Rubik_800ExtraBold,
+//   Rubik_900Black,
+//   Rubik_300Light_Italic,
+//   Rubik_400Regular_Italic,
+//   Rubik_500Medium_Italic,
+//   Rubik_600SemiBold_Italic,
+//   Rubik_700Bold_Italic,
+//   Rubik_800ExtraBold_Italic,
+//   Rubik_900Black_Italic,
+// } from '@expo-google-fonts/rubik';
 
 // const Drawer = createDrawerNavigator()
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // let [fontsLoaded] = useFonts({
+  //   Rubik_300Light,
+  //   Rubik_400Regular,
+  //   Rubik_500Medium,
+  //   Rubik_600SemiBold,
+  //   Rubik_700Bold,
+  //   Rubik_800ExtraBold,
+  //   Rubik_900Black,
+  //   Rubik_300Light_Italic,
+  //   Rubik_400Regular_Italic,
+  //   Rubik_500Medium_Italic,
+  //   Rubik_600SemiBold_Italic,
+  //   Rubik_700Bold_Italic,
+  //   Rubik_800ExtraBold_Italic,
+  //   Rubik_900Black_Italic,
+  // });
+
+  // if (!fontsLoaded) {
+  //   return <SafeAreaView style={{flex: 1}}></SafeAreaView>;
+  // } else {
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home3'>
-        <Stack.Screen name="Home3" component={TabNavigation} options={{headerShown: false}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-    </SafeAreaView>
-  );
+      <SafeAreaView style={{flex: 1}}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Home3'>
+          <Stack.Screen name="Home3" component={TabNavigation} options={{headerShown: false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      </SafeAreaView>
+    );
+  // }
 }
 const styles = StyleSheet.create({
   container: {

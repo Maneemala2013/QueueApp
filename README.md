@@ -43,11 +43,19 @@ npm install react-native-safe-area-context
 <!-- ### install @expo/vector-icons
 npm i @expo/vector-icons -->
 
-### install react-native-vector-icons
+### install icons
 npm i react-native-vector-icons
+npm install --save phosphor-react-native
 
 ### install react native elements
 npm install @rneui/themed @rneui/base
+
+### install datetime picker
+npx expo install @react-native-community/datetimepicker
+
+### install Rubik font
+expo install @expo-google-fonts/rubik expo-font expo-app-loading
+Source: https://www.npmjs.com/package/@expo-google-fonts/rubik
 
 ### Run the project
 npm start

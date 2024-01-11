@@ -7,33 +7,48 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LinearProgress } from '@rneui/themed';
 import ReviewsCard from '../components/ReviewsCard';
+import { Star } from 'phosphor-react-native';
+import {
+    useFonts,
+    Rubik_400Regular,
+    Rubik_600SemiBold,
+  } from '@expo-google-fonts/rubik';
 
 export default function RatingsAndReviews({route, navigation}) {
     const shopName = route.params.name
     let star = route.params.star
     const reviewNo = route.params.reviewNo
     const initialArr = [{star: 5, val: 43}, {star: 4, val: 20}, {star: 3, val: 30}, {star: 2, val: 5}, {star: 1, val: 2}]
+    
+    let [fontsLoaded] = useFonts({
+        Rubik_400Regular,
+        Rubik_600SemiBold,
+      });
+    
+    if (!fontsLoaded) {
+    return (<View style={styles.container}></View>);
+    } else {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.ratingsContainer}>
                 <View style={styles.starOverall}>
                     <View style={styles.star}>
-                        <Text style={{fontSize: 50, fontWeight: "bold"}}>{star}{'\t'}</Text> 
-                        <Ionicons name='star' size={45} color={"purple"}/>
+                        <Text style={styles.starText}>{star}{'\t'}</Text> 
+                        <Star color="#938FC7" weight="fill" size={31}/>
                     </View>
-                    <Text>{reviewNo != 0 ? `${reviewNo} reviews` : "(new shop!)" }</Text>
+                    <Text style={styles.reviewNoText}>{reviewNo != 0 ? `${reviewNo} reviews` : "(new shop!)" }</Text>
                 </View>
                 <View style={styles.ratingStackContainer}>
                     {initialArr.map((data, idx) => {
                         return (
-                            <View style={styles.ratingsStack}>
-                                <Text>{data.star}</Text>
-                                <LinearProgress key={data.star+shopName}
+                            <View key={data.star+shopName} style={styles.ratingsStack}>
+                                <Text style={styles.rateText}>{data.star}</Text>
+                                <LinearProgress
                                 value={data.val/100}
                                 animation={false}
                                 style={styles.bar}
                                 color="tomato"
-                                trackColor="gray"
+                                trackColor="#DEDDDD"
                                 />
                             </View>
                         );
@@ -48,6 +63,7 @@ export default function RatingsAndReviews({route, navigation}) {
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus "}/>
         </ScrollView>
     );
+    }
   }
 
   const styles = StyleSheet.create({
@@ -62,24 +78,24 @@ export default function RatingsAndReviews({route, navigation}) {
     },
     starOverall: {
         alignItems: "center",
-        width: "35%"
+        width: "30%",
     },
     star: {
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     ratingStackContainer: {
-        width: "60%",
-        alignItems: "center",
+        width: "70%",
+        alignItems: "flex-end",
         padding: 5
     },
     bar: {
         height: 10,
         borderRadius: 5,
-        width: "75%",
-        alignSelf: "center",
-        marginLeft: 10
+        width: "85%",
+        marginLeft: 10,
+        marginBottom: 10
       },
     ratingsStack: {
         flexDirection: "row",
@@ -88,5 +104,17 @@ export default function RatingsAndReviews({route, navigation}) {
         fontSize: 18,
         fontWeight: "700",
         marginVertical: 4
+    },
+    starText: {
+        fontSize: 36,
+        fontFamily: "Rubik_600SemiBold"
+    },
+    reviewNoText: {
+        fontSize: 14,
+        fontFamily: "Rubik_400Regular"
+    },
+    rateText: {
+        fontSize: 12,
+        fontFamily: "Rubik_400Regular"
     }
 })

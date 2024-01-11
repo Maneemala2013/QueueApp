@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ShopOverview from '../screens/ShopOverview.js';
 import MoreInfo from '../screens/MoreInfo.js';
 import RatingsAndReviews from '../screens/RatingsAndReviews.js';
+import BookingForm from '../screens/BookingForm.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -65,6 +66,7 @@ export default function HomeStack() {
             <Stack.Screen name="ShopOverview" component={ShopOverview} options={({ route }) => ({ title: route.params.name })}/>
             <Stack.Screen name="MoreInfo" component={MoreInfo} options={({ route }) => ({ title: route.params.name })}/>
             <Stack.Screen name="RatingsAndReviews" component={RatingsAndReviews} options={({ route }) => ({ title: route.params.name })}/>
+            <Stack.Screen name="BookingForm" component={BookingForm} options={({ route }) => ({ title: route.params.name })}/>
         </Stack.Navigator>
     )
   }
