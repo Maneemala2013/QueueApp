@@ -44,7 +44,7 @@ const DatePicker = () => {
 	<Button onPress={showDialog} title={date.toLocaleDateString('zh-hk', options)} buttonStyle={{backgroundColor: "#E4E3F1", borderRadius: 5}} titleStyle={{color: "black", fontFamily: "Rubik_400Regular"}}></Button>
 	{visible && <DateTimePicker
 					testID="dateTimePicker"
-					value={time}
+					value={date}
 					mode={"date"}
 					onChange={onChange}
 				/>}

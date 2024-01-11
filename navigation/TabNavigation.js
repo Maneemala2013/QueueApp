@@ -13,6 +13,7 @@ import ShopOverview from '../screens/ShopOverview.js';
 import MoreInfo from '../screens/MoreInfo.js';
 import RatingsAndReviews from '../screens/RatingsAndReviews.js';
 import BookingForm from '../screens/BookingForm.js';
+import SuccessfulBooking from '../screens/SuccessfulBooking.js';
 import { House, ClipboardText, Bell, GearSix } from 'phosphor-react-native';
 import {
   useFonts,
@@ -81,6 +82,7 @@ export default function HomeStack() {
             <Stack.Screen name="MoreInfo" component={MoreInfo} options={({ route }) => ({ title: route.params.name, headerTitleStyle: {fontFamily: "Rubik_600SemiBold", fontSize: 24}})}/>
             <Stack.Screen name="RatingsAndReviews" component={RatingsAndReviews} options={({ route }) => ({ title: route.params.name, headerTitleStyle: {fontFamily: "Rubik_600SemiBold", fontSize: 24} })}/>
             <Stack.Screen name="BookingForm" component={BookingForm} options={({ route }) => ({ title: route.params.name, headerTitleStyle: {fontFamily: "Rubik_600SemiBold", fontSize: 24} })}/>
+            <Stack.Screen name="SuccessfulBooking" component={SuccessfulBooking} options={({ route }) => ({ title: ""} )}/>
         </Stack.Navigator>
     )
   }

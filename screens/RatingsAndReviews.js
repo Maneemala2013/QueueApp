@@ -105,7 +105,8 @@ export default function RatingsAndReviews({route, navigation}) {
     },
     headerText: {
         fontSize: 18,
-        fontWeight: "700",
+        fontFamily: "Rubik_600SemiBold",
+        color: "#4A4444",
         marginVertical: 4
     },
     starText: {

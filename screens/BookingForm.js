@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import DatePicker from '../components/DatePicker';
 import TimePicker from '../components/TimePicker';
 import {
@@ -12,9 +12,11 @@ import { TextInput } from 'react-native';
 import { Button } from '@rneui/themed';
 
 export default function BookingForm({route, navigation}) {
+    const title = route.params.name
     const time = route.params.time
     const discountedPrice = route.params.discountedPrice
     const price = route.params.price
+    const shopName = route.params.shopName
 
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
@@ -22,7 +24,7 @@ export default function BookingForm({route, navigation}) {
       });
     
     if (!fontsLoaded) {
-    return (<ScrollView style={styles.container}></ScrollView>);
+    return (<ScrollView></ScrollView>);
     } else {
         return (
             <View style={styles.container}>
@@ -54,7 +56,7 @@ export default function BookingForm({route, navigation}) {
                 </View>
                 </ScrollView>
                 <View style={{ width: "100%", marginTop: 10}}>
-                <Button title={"Book Service"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}}></Button>
+                <Button title={"Book Service"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => {navigation.navigate("SuccessfulBooking", {title: title, shopName: shopName })}}></Button>
                 </View>
             </View>
             );

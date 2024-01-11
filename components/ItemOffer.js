@@ -12,7 +12,7 @@ import {
   } from '@expo-google-fonts/rubik';
 import {Clock, Tag} from "phosphor-react-native"
 
-export default function ItemOffer({route, navigation, title, time, discountedPrice, price}) {
+export default function ItemOffer({route, navigation, shopName, title, time, discountedPrice, price}) {
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold
@@ -29,7 +29,7 @@ export default function ItemOffer({route, navigation, title, time, discountedPri
                         <Clock size={18} color={"#938FC7"} weight="fill"/>
                         <Text style={styles.text}>{'\t'}{time}</Text>
                     </View>
-                    <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}} onPress={() => {navigation.navigate("BookingForm", {name: title, time: time, discountedPrice: discountedPrice, price: price})}}>
+                    <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}} onPress={() => {navigation.navigate("BookingForm", {name: title, shopName: shopName, time: time, discountedPrice: discountedPrice, price: price})}}>
                         <Text style={{fontFamily: "Rubik_600SemiBold", fontSize: 16}}>Book</Text>
                     </Button>
                 </View>

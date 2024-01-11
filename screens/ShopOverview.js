@@ -64,13 +64,13 @@ export default function ShopOverview({route, navigation}) {
                 </View>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.headerText}>Promotion</Text>
-                    <ItemOffer navigation={navigation} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
-                    <ItemOffer navigation={navigation} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />
+                    <ItemOffer navigation={navigation} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
+                    <ItemOffer navigation={navigation} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />
                 </View>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.headerText}>Manicure</Text>
-                    <ItemOffer navigation={navigation} title="Signature Gel Manicure with Chrome Powder / Cat Eye" time="1h 30m" discountedPrice={-1} price={150} />
-                    <ItemOffer navigation={navigation} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />
+                    <ItemOffer navigation={navigation} shopName={shopName} title="Signature Gel Manicure with Chrome Powder / Cat Eye" time="1h 30m" discountedPrice={-1} price={150} />
+                    <ItemOffer navigation={navigation} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />
                 </View>
             </ScrollView>
             </IconContext.Provider>
