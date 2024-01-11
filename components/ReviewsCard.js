@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
-        minHeight: 100,
+        minHeight: 75,
         maxHeight: 200,
         width: "100%",
         padding: 15,

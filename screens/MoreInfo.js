@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MapView from 'react-native-maps';
-import { Image } from "@rneui/themed";
+import { Image, Button } from "@rneui/themed";
 import { Clock, Cardholder, Phone, FacebookLogo, InstagramLogo, MapPin, IconContext, SpinnerGap } from 'phosphor-react-native';
 import {Image as ImageLogo} from "phosphor-react-native";
 import {
@@ -16,6 +16,12 @@ import {
   } from '@expo-google-fonts/rubik';
 
 export default function MoreInfo({route, navigation}) {
+    const shopName = route.params.shopName
+    const serviceCategory = route.params.serviceCategory
+    const farness = route.params.farness
+    const star = route.params.star
+    const reviewNo = route.params.reviewNo
+
     const onRegionChange = (region) => {
         console.log(region)
     }
@@ -114,6 +120,7 @@ export default function MoreInfo({route, navigation}) {
                         </View>
                     </View>
                 </View>
+                <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}></Button>
             </ScrollView>  
         </IconContext.Provider>
         );

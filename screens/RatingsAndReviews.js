@@ -5,7 +5,7 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { LinearProgress } from '@rneui/themed';
+import { LinearProgress, Button } from '@rneui/themed';
 import ReviewsCard from '../components/ReviewsCard';
 import { Star } from 'phosphor-react-native';
 import {
@@ -15,8 +15,10 @@ import {
   } from '@expo-google-fonts/rubik';
 
 export default function RatingsAndReviews({route, navigation}) {
-    const shopName = route.params.name
-    let star = route.params.star
+    const shopName = route.params.shopName
+    const serviceCategory = route.params.serviceCategory
+    const farness = route.params.farness
+    const star = route.params.star
     const reviewNo = route.params.reviewNo
     const initialArr = [{star: 5, val: 43}, {star: 4, val: 20}, {star: 3, val: 30}, {star: 2, val: 5}, {star: 1, val: 2}]
     
@@ -61,6 +63,7 @@ export default function RatingsAndReviews({route, navigation}) {
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "}/>
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"Habcd"}/>
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus "}/>
+            <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}></Button>
         </ScrollView>
     );
     }

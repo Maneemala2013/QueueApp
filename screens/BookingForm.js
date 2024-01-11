@@ -54,7 +54,7 @@ export default function BookingForm({route, navigation}) {
                 </View>
                 </ScrollView>
                 <View style={{ width: "100%", marginTop: 10}}>
-                <Button title={"Book Service"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10}}></Button>
+                <Button title={"Book Service"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}}></Button>
                 </View>
             </View>
             );
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: "100%",
-        height: 150,
+        height: 85,
         borderRadius: 10,
         backgroundColor: "white",
         borderColor: "#8B8585",
@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
         padding: 8,
         fontFamily: "Rubik_400Regular",
-        fontSize: 16,
-        margin: 0
+        fontSize: 14,
+        margin: 0,
     },
     inputContainer: {
         marginBottom: 10,

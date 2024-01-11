@@ -48,7 +48,7 @@ export default function ShopOverview({route, navigation}) {
                             <Info/>
                             <Text style={styles.topText}>{'\t'}More info</Text>
                         </View>
-                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: `More Info - ${shopName}`})}}>
+                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: "More Info", shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
                             <ArrowRight color="#E56014" weight="bold"/>
                         </Button>
                     </View>
@@ -57,7 +57,7 @@ export default function ShopOverview({route, navigation}) {
                             <Star/>
                             <Text style={styles.topText}>{'\t'}{star} {reviewNo != 0 ? `(${reviewNo} reviews)` : "(new shop!)" }</Text>
                         </View>
-                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: `Ratings and Reviews - ${shopName}`, star: star, reviewNo: reviewNo})}}>
+                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: "Ratings and Reviews", shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
                             <ArrowRight color="#E56014" weight="bold"/>
                         </Button>
                     </View>
