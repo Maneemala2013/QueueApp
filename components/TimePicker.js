@@ -10,17 +10,17 @@ import moment from "moment";
 import "moment/locale/zh-hk";
 moment.locale("zh-hk");
 
-const DatePicker = () => {
-	const [date, setDate] = useState(new Date());
+const TimePicker = () => {
+	const [time, setTime] = useState(new Date());
 	const [visible, setVisible] = useState(false);
 
-	const onChange = (event, selectedDate) => {
+	const onChange = (event, selectedTime) => {
 		setVisible(false);
 		if (event.type == "set") {
 			//ok button clicked
-			const currentDate = selectedDate;
+			const currentTime = selectedTime;
 			//save local Time
-			setDate(currentDate);
+			setTime(currentTime);
 		}
 		// } else {
 		// 	//cancel button clicked
@@ -32,23 +32,23 @@ const DatePicker = () => {
 		// showMode("time");
 	};
 
-	const options = {
-		weekday: "short",
-		year: "numeric",
-		month: "short",
-		day: "numeric",
-	  };
+	// const options = {
+	// 	weekday: "short",
+	// 	year: "numeric",
+	// 	month: "short",
+	// 	day: "numeric",
+	//   };
 
 	// {newValue, display}
 	return (<View>
-	<Button onPress={showDialog} title={date.toLocaleDateString('zh-hk', options)} buttonStyle={{backgroundColor: "#E4E3F1", borderRadius: 5}} titleStyle={{color: "black", fontFamily: "Rubik_400Regular"}}></Button>
+	<Button onPress={showDialog} title={time.toLocaleTimeString('zh-hk')} buttonStyle={{backgroundColor: "#E4E3F1", borderRadius: 5}} titleStyle={{color: "black", fontFamily: "Rubik_400Regular"}}></Button>
 	{visible && <DateTimePicker
 					testID="dateTimePicker"
 					value={time}
-					mode={"date"}
+					mode={"time"}
 					onChange={onChange}
 				/>}
 	</View>)
 };
 
-export default DatePicker;
+export default TimePicker;
