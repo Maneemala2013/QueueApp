@@ -1,35 +1,49 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { ManageBookingStyles, iconColor } from "./ManageBookingStyles";
+import { MapPin, Seal } from "phosphor-react-native";
 
-function BookingCard({ booking, navigation }) {
+function BookingCard({ booking, navigation, type }) {
   return (
     <TouchableOpacity
       key={booking.id}
-      className="py-2 border-b border-slate-400"
+      className="py-4 border-b border-slate-300"
       onPress={() => {
-        navigation.navigate("UpcomingBooking", {
-          booking: booking,
-        });
+        if (type === "Past")
+          navigation.navigate("PastBooking", {
+            booking: booking,
+          });
+        else if (type === "Upcoming")
+          navigation.navigate("UpcomingBooking", {
+            booking: booking,
+          });
       }}
     >
-      <View>
-        <Text>
-          <View className="flex flex-row justify-between py-2">
-            <Text>
-              {booking.date} {booking.time}
-            </Text>
-            <Text>&#8594;</Text>
-          </View>
-        </Text>
-        <Text>{booking.type}</Text>
-        <Text>{booking.location}</Text>
+      <View className="flex flex-col space-y-2">
+        <View className="flex flex-row justify-between">
+          <Text className="text-base">
+            {booking.date} {booking.time}
+          </Text>
+          <Text style={ManageBookingStyles.primaryColor} className="text-base">
+            &#8594;
+          </Text>
+        </View>
+        <View className="flex flex-row space-x-2">
+          <Seal weight="fill" color={iconColor} size={15} />
+          <Text>{booking.type}</Text>
+        </View>
+
+        <View className="flex flex-row space-x-2">
+          <MapPin weight="fill" color={iconColor} size={15} />
+          <Text>{booking.location}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
 }
 
-function UpcomingBooking({
+function UpcomingBookingList({
   setBookingsList,
   loaded,
   setLoaded,
@@ -60,7 +74,14 @@ function UpcomingBooking({
     return (
       <ScrollView>
         {bookingsList.map((b) => {
-          return <BookingCard booking={b} key={b.id} navigation={navigation} />;
+          return (
+            <BookingCard
+              booking={b}
+              key={b.id}
+              navigation={navigation}
+              type="Upcoming"
+            />
+          );
         })}
       </ScrollView>
     );
@@ -73,7 +94,7 @@ function UpcomingBooking({
 }
 
 // TODO: change fetching data in PastBooking
-function PastBooking({
+function PastBookingList({
   setBookingsList,
   loaded,
   setLoaded,
@@ -104,7 +125,14 @@ function PastBooking({
     return (
       <ScrollView>
         {bookingsList.map((b) => {
-          return <BookingCard booking={b} key={b.id} navigation={navigation} />;
+          return (
+            <BookingCard
+              booking={b}
+              key={b.id}
+              navigation={navigation}
+              type="Past"
+            />
+          );
         })}
       </ScrollView>
     );
@@ -116,30 +144,83 @@ function PastBooking({
     );
 }
 
+function SelectBookingsType({ bookingsType, setBookingsType }) {
+  const wrapperRef = useRef(null);
+  const [position, setPosition] = useState(0);
+  const [wrapperWidth, setWrapperWidth] = useState(0);
+
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        if (bookingsType === "Past") {
+          setBookingsType("Upcoming");
+          setPosition(0);
+        } else {
+          setBookingsType("Past");
+          setPosition(wrapperWidth / 2);
+        }
+      }}
+    >
+      <View
+        className="border border-slate-300 flex-row flex rounded-lg"
+        ref={wrapperRef}
+        onLayout={(event) => {
+          const { width } = event.nativeEvent.layout;
+          setWrapperWidth(width);
+        }}
+      >
+        <View
+          className="h-full w-1/2 absolute p-1"
+          style={{
+            left: position,
+            transition: "left 1s ease-in-out",
+          }}
+        >
+          <View
+            className="rounded h-full w-full"
+            style={ManageBookingStyles.primaryBackgroundColor}
+          ></View>
+        </View>
+        <View className="flex-1 py-3">
+          <Text
+            className="text-center"
+            style={{
+              color: bookingsType === "Upcoming" ? "white" : "black",
+            }}
+          >
+            Upcoming bookings
+          </Text>
+        </View>
+        <View className="flex-1 py-3">
+          <Text
+            className="text-center"
+            style={{
+              color: bookingsType === "Past" ? "white" : "black",
+            }}
+          >
+            Past bookings
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
 export default function Booking({ navigation }) {
   const [bookingsList, setBookingsList] = useState([]);
   const [bookingsType, setBookingsType] = useState("Upcoming"); // ["Upcoming", "Past"
   const [loaded, setLoaded] = useState(false);
   // console.log(bookingsList);
 
-  const SelectBookingsType = () => {
-    return (
-      <View
-        onPress={() => {
-          if (bookingsType === "Past") setBookingsType("Upcoming");
-          else setBookingsType("Past");
-        }}
-      >
-        <Text>Upcoming bookings/ Past bookings</Text>
-      </View>
-    );
-  };
   return (
-    <View className="p-4">
+    <View className="p-4" style={ManageBookingStyles.backgroundColor}>
       <Text className="text-2xl font-bold py-4">Bookings</Text>
-      <SelectBookingsType />
+      <SelectBookingsType
+        bookingsType={bookingsType}
+        setBookingsType={setBookingsType}
+      />
       {bookingsType === "Upcoming" ? (
-        <UpcomingBooking
+        <UpcomingBookingList
           setBookingsList={setBookingsList}
           bookingsList={bookingsList}
           loaded={loaded}
@@ -147,7 +228,7 @@ export default function Booking({ navigation }) {
           navigation={navigation}
         />
       ) : (
-        <PastBooking
+        <PastBookingList
           setBookingsList={setBookingsList}
           bookingsList={bookingsList}
           loaded={loaded}
