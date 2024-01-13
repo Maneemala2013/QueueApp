@@ -24,11 +24,13 @@ export default function ShopOverview({route, navigation}) {
     const reviewNo = route.params.reviewNo
 
     const [serviceList, setServiceList] = useState([])
+    const [isLoading, setLoading] = useState(true);
 
     async function getServiceList() {
         // console.log(shopId)
         let tmp = []
-        await fetch(`http://<IP_ADDRESS>:8000/shop/${shopId}/`, {
+        let tmp2 = []
+        await fetch(`http://127.0.0.1:8000/shop/${shopId}/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -41,12 +43,13 @@ export default function ShopOverview({route, navigation}) {
                 tmp.push(serviceId.id)
             })
             console.log("tmp", tmp);
-        }).catch(error => {console.log(error)});
-
-        
-        tmp.map((service, idx) => {
+            console.log("1")
+        }).catch(error => {console.log("error", error)})
+    
+        await Promise.all(tmp.map(async (service, idx) => {
             // console.log(service)
-            fetch(`http://<IP_ADDRESS>:8000/service/${service}/`, {
+            console.log("2")
+            await fetch(`http://127.0.0.1/:8000/service/${service}/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -56,16 +59,20 @@ export default function ShopOverview({route, navigation}) {
                 .then((data) => {
                     let b = data.data.attributes
                     b['id'] = data.data.id
-                    let serviceListTmp = serviceList
-                    serviceListTmp.push(b)
-                    setServiceList(serviceListTmp)
-                    console.log(serviceListTmp);
-                }).catch(error => {console.log("error", error)});
-        })
+                    tmp2.push(b)
+                    console.log("tmp2: ", tmp2)
+                }).catch(error => {console.log("error", error)})
+        })).then(() => {
+            setServiceList(tmp2)
+            console.log(serviceList)
+            setLoading(false)})
     }
+
+
 
     useEffect(() => {
         getServiceList();
+        
     }, [])
 
     let [fontsLoaded] = useFonts({
@@ -75,7 +82,7 @@ export default function ShopOverview({route, navigation}) {
         Rubik_900Black,
       });
     
-      if (!fontsLoaded) {
+      if (!fontsLoaded |  isLoading | serviceList.length == 0) {
         return (<ScrollView style={styles.container}></ScrollView>);
       } else {
 
@@ -110,23 +117,25 @@ export default function ShopOverview({route, navigation}) {
                 </View>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.headerText}>Promotion</Text>
-                    {serviceList.map((service, idx) => {
-                        if (service.discountedPrice > -1) {                        
+                    {serviceList.map((service, idx) => {                      
                             return(
-                                <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
-                                // <ItemOffer key={idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
-                        )}
+                                // <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
+                                service.discountedPrice > -1 && <ItemOffer key={service+idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
+                        )
                     })}
                      {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} /> */}
                      {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />  */}
                 </View>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.headerText}>Service Items</Text>
-                    {serviceList.map((service, idx) => {
-                        if (service.discountedPrice == -1) {                        
+                    {/* {serviceList.map((service, idx) => {
+                        return(service.discountedPrice <= -1 && <ItemOffer key={service+idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />)
+                    })} */}
+                    {serviceList.map((service, idx) => {                      
                             return(
-                                <ItemOffer key={idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
-                        )}
+                                // <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
+                                service.discountedPrice == -1 && <ItemOffer key={service+idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
+                        )
                     })}
                     {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Signature Gel Manicure with Chrome Powder / Cat Eye" time="1h 30m" discountedPrice={-1} price={150} />
                     <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} /> */}
