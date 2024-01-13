@@ -17,11 +17,14 @@ const Stack = createNativeStackNavigator();
 
 export default function ShopOverview({route, navigation}) {
     const shopName = route.params.name
+    const shopId = route.params.shopId
     const serviceCategory = route.params.serviceCategory
     const farness = route.params.farness
     const star = route.params.star
     const reviewNo = route.params.reviewNo
 
+    // console.log("id: ", shopId)
+    // console.log(route)
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold,
@@ -48,7 +51,7 @@ export default function ShopOverview({route, navigation}) {
                             <Info/>
                             <Text style={styles.topText}>{'\t'}More info</Text>
                         </View>
-                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: "More Info", shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
+                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: "More Info", shopId: shopId, shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
                             <ArrowRight color="#E56014" weight="bold"/>
                         </Button>
                     </View>
@@ -57,7 +60,7 @@ export default function ShopOverview({route, navigation}) {
                             <Star/>
                             <Text style={styles.topText}>{'\t'}{star} {reviewNo != 0 ? `(${reviewNo} reviews)` : "(new shop!)" }</Text>
                         </View>
-                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: "Ratings and Reviews", shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
+                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: "Ratings and Reviews", shopId: shopId, shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
                             <ArrowRight color="#E56014" weight="bold"/>
                         </Button>
                     </View>

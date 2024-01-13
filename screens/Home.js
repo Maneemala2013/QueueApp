@@ -8,7 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SearchBar, Button } from "@rneui/themed";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import CategoryCard from "../components/CategoryCard.js";
@@ -29,12 +29,41 @@ export default function Home({ navigation }) {
     setSearch(search);
   };
 
+  const [shopData, setShopData] = useState([])
+  function getShopData() {
+    // http://<IP_ADDRESS>:<IP_ADDRESS>/path/
+		fetch("http://127.0.0.1/:8000/shop/", {
+		  method: "GET",
+		  headers: {
+		    "Content-Type": "application/json",
+		  },
+		  // body: JSON.stringify(shop),
+		})
+		  .then((resp) => resp.json())
+		  .then((shop) => {
+        // console.log(shop.data)
+        tmp = shop.data
+        a = []
+        tmp.map((s) => {
+          b = s.attributes
+          b['id'] = s.id
+          a.push(b)
+        })
+        setShopData(a)
+		    console.log(shopData);
+		  }).catch(error => {console.log(error)});
+  }
+
   let [fontsLoaded] = useFonts({
     Rubik_400Regular,
     Rubik_600SemiBold,
     Rubik_800ExtraBold,
     Rubik_900Black,
   });
+  
+  useEffect(() => {
+    getShopData();
+  }, [])
 
   if (!fontsLoaded) {
     return <ScrollView style={styles.container}></ScrollView>;
@@ -122,7 +151,22 @@ export default function Home({ navigation }) {
           </View>
           <View style={styles.shopNearYou}>
             <Text style={styles.headerText}>Shops near you</Text>
-            <ShopNearYouCard
+            {shopData.map((data, idx) => {
+                return (
+                    <ShopNearYouCard key={idx} 
+                    navigation={navigation}
+                    shopId={data.id}
+                    shopName={data.shop_name}
+                    serviceCategory={data.category}
+                    farness={data.farness}
+                    priceRange={data.price_range}
+                    star={data.rating}
+                    reviewNo={data.review_num}
+                    imageUri={data.profile_image_url}
+                    />
+                );
+            })}
+            {/* <ShopNearYouCard
               navigation={navigation}
               shopName={"Oh La La Nails"}
               serviceCategory={"nail"}
@@ -157,7 +201,7 @@ export default function Home({ navigation }) {
               imageUri={
                 "https://img.freepik.com/free-photo/young-beautiful-woman-relaxing-during-spa-treatment_1150-3094.jpg?w=900&t=st=1704686772~exp=1704687372~hmac=9e35dffc081792a430ffd25b96da085e53e521cfbeb139adf7aa95a43f681e1d"
               }
-            />
+            /> */}
           </View>
         </ScrollView>
       </IconContext.Provider>

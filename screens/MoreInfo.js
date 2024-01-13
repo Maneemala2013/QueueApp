@@ -3,7 +3,7 @@
 // https://www.youtube.com/watch?v=xcn-0LyX6JY
 
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MapView from 'react-native-maps';
 import { Image, Button } from "@rneui/themed";
@@ -16,6 +16,7 @@ import {
   } from '@expo-google-fonts/rubik';
 
 export default function MoreInfo({route, navigation}) {
+    const shopId = route.params.shopId
     const shopName = route.params.shopName
     const serviceCategory = route.params.serviceCategory
     const farness = route.params.farness
@@ -26,10 +27,33 @@ export default function MoreInfo({route, navigation}) {
         console.log(region)
     }
 
+    let [shopInfo, setShopInfo] = useState([])
+    // let [workingHours, setWorkingHours] = useState([])
+
+    function getShopInfo() {
+            console.log(shopId)
+            fetch(`http://127.0.0.1:8000/shop/${shopId}/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // body: JSON.stringify(shop),
+            })
+            .then((resp) => resp.json())
+            .then((data) => {
+                setShopInfo(data.data.attributes)
+                console.log(data.data.attributes);
+            }).catch(error => {console.log(error)});
+    }
+
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold,
       });
+
+    useEffect(() => {
+        getShopInfo();
+    }, [])
     
     if (!fontsLoaded) {
     return (<ScrollView style={styles.container} contentContainerStyle={{justifyContent: "center", alignItems: "center"}}>
@@ -46,29 +70,36 @@ export default function MoreInfo({route, navigation}) {
                 <ScrollView style={styles.container}>
                 <View style={styles.sectionContainer}>
                     <View style={styles.section}>
-                        <Text style={styles.text}>If you're looking for a nail salon in Hong Kong that offers something truly unique, the look no further than our salon. We're different from other salons in several ways, and we're proud to offer our clientele an experience that they won't forget. </Text>
+                        <Text style={styles.text}>{shopInfo.shop_detail}</Text>
+                        {/* <Text style={styles.text}>If you're looking for a nail salon in Hong Kong that offers something truly unique, the look no further than our salon. We're different from other salons in several ways, and we're proud to offer our clientele an experience that they won't forget. </Text> */}
                     </View>
                     <View style={styles.section}>
                         <View style={styles.infoText}>
                             <Clock/>
-                            <Text style={styles.text}>Mon - Thu 10:00 - 20:00</Text>
+                            <Text style={styles.text}>{shopInfo.working_hour}</Text>
                         </View>
-                        <View style={styles.infoText}>
+                        {/* {workingHours.map((working_hour, idx) => {
+                            return (
+                            <View style={styles.infoText}>
+                                <Clock/>
+                                <Text style={styles.text}>{working_hour}</Text>
+                            </View>)})} */}
+                        {/* <View style={styles.infoText}>
                             <Clock color="transparent"/>
                             <Text style={styles.text}>Fri - Sun 10:00 - 22:00</Text>
-                        </View>
-                        
+                        </View> */} 
                     </View>
                     <View style={styles.section}>
                         <View style={styles.infoText}>
                             <Cardholder/>
-                            <Text style={styles.text}>Cash, Octopus, Visa, Mastercard, Payme, Alipay</Text>
+                            <Text style={styles.text}>{shopInfo.payment}</Text>
+                            {/* <Text style={styles.text}>Cash, Octopus, Visa, Mastercard, Payme, Alipay</Text> */}
                         </View> 
                     </View>
                     <View style={styles.section}>
                         <View style={styles.infoText}>
                             <Phone/>
-                            <Text style={[styles.text, {color: "#E56014"}]}>51383866</Text>
+                            <Text style={[styles.text, {color: "#E56014"}]}>{shopInfo.phone_number}</Text>
                         </View> 
                     </View>
                     {/* <View style={styles.section}>
@@ -80,20 +111,20 @@ export default function MoreInfo({route, navigation}) {
                     <View style={styles.section}>
                         <View style={styles.infoText}>
                             <FacebookLogo/>
-                            <Text style={[styles.text, {color: "#E56014"}]}>Oh La La Nails</Text>
+                            <Text style={[styles.text, {color: "#E56014"}]}>{shopInfo.fb}</Text>
                         </View> 
                     </View>
                     <View style={styles.section}>
                         <View style={styles.infoText}>
                             <InstagramLogo/>
-                            <Text style={[styles.text, {color: "#E56014"}]}>@ohlalanails</Text>
+                            <Text style={[styles.text, {color: "#E56014"}]}>{shopInfo.ig_display}</Text>
                         </View> 
                     </View>
                     <View style={styles.section}>
                         <View style={styles.infoText}>
                             <MapPin/>
-                            <View>
-                                <Text style={styles.text}>Tak Woo House, 1 Wo On Lane., 9 Floor, Hong Kong, Hong Kong</Text>
+                            <View style={{width: "92%"}}>
+                                <Text style={styles.text}>{shopInfo.location}</Text>
                                 <Text style={[styles.text, {color: "#E56014", marginTop: 5}]}>Get Direction</Text>
                                 <MapView style={[styles.map, styles.section]} customMapStyle={{borderRadius: 15}}
                                     // onRegionChange={onRegionChange}
@@ -120,7 +151,7 @@ export default function MoreInfo({route, navigation}) {
                         </View>
                     </View>
                 </View>
-                <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}></Button>
+                <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, shopId: shopId, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}></Button>
             </ScrollView>  
         </IconContext.Provider>
         );

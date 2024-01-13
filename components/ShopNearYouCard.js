@@ -10,8 +10,9 @@ import {
   } from '@expo-google-fonts/rubik';
 import {Tag, Star} from 'phosphor-react-native';
 
-const ShopNearYouCard = ({ navigation, shopName, serviceCategory, farness, priceRange, star, reviewNo, imageUri }) => {
+const ShopNearYouCard = ({ navigation, shopId, shopName, serviceCategory, farness, priceRange, star, reviewNo, imageUri }) => {
     // const navigation = useNavigation()
+    console.log("id: ", shopId)
 
 let [fontsLoaded] = useFonts({
     Rubik_400Regular,
@@ -22,7 +23,7 @@ let [fontsLoaded] = useFonts({
     } else {
     return (
     <View>
-    <TouchableOpacity style={[styles.card]} onPress={() => {navigation.navigate("ShopOverview", {name: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
+    <TouchableOpacity style={[styles.card]} onPress={() => {navigation.navigate("ShopOverview", {name: shopName, shopId: shopId, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
         <View style={styles.info}>
             <View style={styles.detailsContainer}>
                 <Text style={[styles.shopNameText]}>

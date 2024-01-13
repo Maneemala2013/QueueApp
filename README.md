@@ -57,6 +57,10 @@ npx expo install @react-native-community/datetimepicker
 expo install @expo-google-fonts/rubik expo-font expo-app-loading
 Source: https://www.npmjs.com/package/@expo-google-fonts/rubik
 
+### install nativewind and  tailwindcss
+npm install nativewind@2.0.11 --save
+npm install tailwindcss@3.3.2 --save
+
 ### Run the project
 npm start
 Then, press i to use iOS emulator or press a to use Android emulator.
