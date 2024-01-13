@@ -1,5 +1,3 @@
-import Home from "../screens/Home.js";
-import Booking from "../screens/Booking.js";
 import Notification from "../screens/Notification.js";
 import Settings from "../screens/Settings.js";
 import { View } from "react-native";
@@ -12,6 +10,7 @@ import {
   Rubik_600SemiBold,
 } from "@expo-google-fonts/rubik";
 import HomeStack from "./HomeStack.js";
+import ManageBookingStack from "./ManageBookingStack.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -61,7 +60,7 @@ export default function TabWrapper() {
         />
         <Tab.Screen
           name="Bookings"
-          component={Booking}
+          component={ManageBookingStack}
           options={{
             headerTitleStyle: { fontFamily: "Rubik_600SemiBold", fontSize: 32 },
           }}
