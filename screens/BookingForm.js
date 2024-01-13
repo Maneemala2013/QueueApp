@@ -18,6 +18,22 @@ export default function BookingForm({route, navigation}) {
     const price = route.params.price
     const shopName = route.params.shopName
 
+    // function getShopInfo() {
+    //     console.log(shopId)
+    //     fetch(`http://127.0.0.1:8000/shop/${shopId}/`, {
+    //     method: "GET",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     // body: JSON.stringify(shop),
+    //     })
+    //     .then((resp) => resp.json())
+    //     .then((data) => {
+    //         setShopInfo(data.data.attributes)
+    //         console.log(data.data.attributes);
+    //     }).catch(error => {console.log(error)});
+    // }
+
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold,

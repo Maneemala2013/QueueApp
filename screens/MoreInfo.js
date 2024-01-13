@@ -32,7 +32,7 @@ export default function MoreInfo({route, navigation}) {
 
     function getShopInfo() {
             console.log(shopId)
-            fetch(`http://127.0.0.1:8000/shop/${shopId}/`, {
+            fetch(`http://<IP_ADDRESS>:8000/shop/${shopId}/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

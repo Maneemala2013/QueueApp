@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ItemOffer from '../components/ItemOffer.js';
@@ -23,8 +23,51 @@ export default function ShopOverview({route, navigation}) {
     const star = route.params.star
     const reviewNo = route.params.reviewNo
 
-    // console.log("id: ", shopId)
-    // console.log(route)
+    const [serviceList, setServiceList] = useState([])
+
+    async function getServiceList() {
+        // console.log(shopId)
+        let tmp = []
+        await fetch(`http://<IP_ADDRESS>:8000/shop/${shopId}/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            let serviceIds = data.data.relationships.service_set.data
+            serviceIds.map((serviceId) => {
+                tmp.push(serviceId.id)
+            })
+            console.log("tmp", tmp);
+        }).catch(error => {console.log(error)});
+
+        
+        tmp.map((service, idx) => {
+            // console.log(service)
+            fetch(`http://<IP_ADDRESS>:8000/service/${service}/`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                })
+                .then((resp) => resp.json())
+                .then((data) => {
+                    let b = data.data.attributes
+                    b['id'] = data.data.id
+                    let serviceListTmp = serviceList
+                    serviceListTmp.push(b)
+                    setServiceList(serviceListTmp)
+                    console.log(serviceListTmp);
+                }).catch(error => {console.log("error", error)});
+        })
+    }
+
+    useEffect(() => {
+        getServiceList();
+    }, [])
+
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold,
@@ -67,13 +110,26 @@ export default function ShopOverview({route, navigation}) {
                 </View>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.headerText}>Promotion</Text>
-                    <ItemOffer navigation={navigation} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
-                    <ItemOffer navigation={navigation} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />
+                    {serviceList.map((service, idx) => {
+                        if (service.discountedPrice > -1) {                        
+                            return(
+                                <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
+                                // <ItemOffer key={idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
+                        )}
+                    })}
+                     {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} /> */}
+                     {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />  */}
                 </View>
                 <View style={styles.sectionContainer}>
-                    <Text style={styles.headerText}>Manicure</Text>
-                    <ItemOffer navigation={navigation} shopName={shopName} title="Signature Gel Manicure with Chrome Powder / Cat Eye" time="1h 30m" discountedPrice={-1} price={150} />
-                    <ItemOffer navigation={navigation} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />
+                    <Text style={styles.headerText}>Service Items</Text>
+                    {serviceList.map((service, idx) => {
+                        if (service.discountedPrice == -1) {                        
+                            return(
+                                <ItemOffer key={idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
+                        )}
+                    })}
+                    {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Signature Gel Manicure with Chrome Powder / Cat Eye" time="1h 30m" discountedPrice={-1} price={150} />
+                    <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} /> */}
                 </View>
             </ScrollView>
             </IconContext.Provider>

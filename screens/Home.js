@@ -32,7 +32,7 @@ export default function Home({ navigation }) {
   const [shopData, setShopData] = useState([])
   function getShopData() {
     // http://<IP_ADDRESS>:<IP_ADDRESS>/path/
-		fetch("http://127.0.0.1/:8000/shop/", {
+		fetch("http://<IP_ADDRESS>:8000/shop/", {
 		  method: "GET",
 		  headers: {
 		    "Content-Type": "application/json",
