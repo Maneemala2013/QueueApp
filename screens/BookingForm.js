@@ -169,6 +169,9 @@ export default function BookingForm({route, navigation}) {
         .then((data) => {
             obj = (data.data.attributes)
             obj['available_time_slot'] = newTimeSlots
+            // let service_set 
+            obj['service_set'] = data.data.relationships.service_set.data.map((ele) => `http://${global.ipAddress}:8000/service/${ele.id}/`)
+            obj['appointment_set'] = data.data.relationships.appointment_set.data.map((ele) => `http://${global.ipAddress}:8000/appointment/${ele.id}/`)
             console.log("obj1: ", obj)
         }).catch(error => {console.log(error)})
         
