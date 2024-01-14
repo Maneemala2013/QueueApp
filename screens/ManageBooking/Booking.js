@@ -3,8 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import { ManageBookingStyles, iconColor } from "./ManageBookingStyles";
 import { MapPin, Seal } from "phosphor-react-native";
+import { BACKEND, USER_ID } from "../../demoConfig";
+import { useFocusEffect } from "@react-navigation/native";
 
 function BookingCard({ booking, navigation, type }) {
+  console.log("card", booking);
+
   return (
     <TouchableOpacity
       key={booking.id}
@@ -23,7 +27,7 @@ function BookingCard({ booking, navigation, type }) {
       <View className="flex flex-col space-y-2">
         <View className="flex flex-row justify-between">
           <Text className="text-base">
-            {booking.date} {booking.time}
+            {booking.date} {booking.start_time} - {booking.end_time}
           </Text>
           <Text style={ManageBookingStyles.primaryColor} className="text-base">
             &#8594;
@@ -31,7 +35,7 @@ function BookingCard({ booking, navigation, type }) {
         </View>
         <View className="flex flex-row space-x-2">
           <Seal weight="fill" color={iconColor} size={15} />
-          <Text>{booking.type}</Text>
+          <Text>{booking.service_name}</Text>
         </View>
 
         <View className="flex flex-row space-x-2">
@@ -43,33 +47,7 @@ function BookingCard({ booking, navigation, type }) {
   );
 }
 
-function UpcomingBookingList({
-  setBookingsList,
-  loaded,
-  setLoaded,
-  bookingsList,
-  navigation,
-}) {
-  useEffect(() => {
-    async function fetchBookings() {
-      const data = [];
-      for (let i = 0; i < 20; i++) {
-        data.push({
-          id: i,
-          date: "20/1/24",
-          time: "10:00 - 11:00",
-          type: "Manicure and hand spa",
-          location: "Ooh La La Nail",
-        });
-      }
-
-      setBookingsList(data);
-      setLoaded(true);
-    }
-
-    fetchBookings();
-  }, []);
-
+function UpcomingBookingList({ loaded, bookingsList, navigation }) {
   if (loaded) {
     return (
       <ScrollView>
@@ -93,34 +71,65 @@ function UpcomingBookingList({
     );
 }
 
-// TODO: change fetching data in PastBooking
-function PastBookingList({
-  setBookingsList,
-  loaded,
-  setLoaded,
-  bookingsList,
-  navigation,
-}) {
-  useEffect(() => {
-    async function fetchBookings() {
-      const data = [];
-      for (let i = 0; i < 20; i++) {
-        data.push({
-          id: i,
-          date: "20/1/24",
-          time: "10:00 - 11:00",
-          type: "Manicure and hand spa",
-          location: "Ooh La La Nail",
-        });
+async function fetchBookings() {
+  // TODO: handle assumption: end date and start date might not be the same
+  const bookings = [];
+
+  return await fetch(`${BACKEND}/user/${USER_ID}`)
+    .then((res) => res.json())
+    .then(async (res) => {
+      const appointmentList = res.data.relationships.appointment_set.data;
+
+      async function fetchShopName(id) {
+        return await fetch(`${BACKEND}/shop/${id}`)
+          .then((res) => res.json())
+          .then((res) => {
+            return {
+              shop_name: res.data.attributes.shop_name,
+              location: res.data.attributes.location,
+              shop: res.data.attributes,
+            };
+          });
       }
 
-      setBookingsList(data);
-      setLoaded(true);
-    }
+      async function fetchAppointment(id) {
+        return await fetch(`${BACKEND}/appointment/${id}`)
+          .then((res) => res.json())
+          .then(async (res) => {
+            const { shop_name, location, shop } = await fetchShopName(
+              res.data.relationships.shop.data.id
+            );
 
-    fetchBookings();
-  }, []);
+            return {
+              end_time: res.data.attributes.end_time,
+              start_time: res.data.attributes.start_time,
+              service_name: res.data.attributes.service_name,
+              shop_name: shop_name,
+              location: location,
+              shop: shop,
+              appointment: res.data.attributes,
+            };
+          });
+      }
 
+      for (const a of appointmentList) {
+        const appointment = await fetchAppointment(a.id);
+        bookings.push(appointment);
+      }
+
+      bookings.sort((a, b) => {
+        return a.start_time - b.start_time;
+      });
+      return bookings;
+    })
+    .catch((err) => {
+      console.log(err);
+      return [];
+    });
+}
+
+// TODO: change fetching data in PastBooking
+function PastBookingList({ loaded, bookingsList, navigation }) {
   if (loaded) {
     return (
       <ScrollView>
@@ -207,10 +216,32 @@ function SelectBookingsType({ bookingsType, setBookingsType }) {
 }
 
 export default function Booking({ navigation }) {
-  const [bookingsList, setBookingsList] = useState([]);
+  const [upcomingBookingsList, setUpcomingBookingsList] = useState([]);
+  const [pastBookingsList, setPastBookingsList] = useState([]);
   const [bookingsType, setBookingsType] = useState("Upcoming"); // ["Upcoming", "Past"
   const [loaded, setLoaded] = useState(false);
   // console.log(bookingsList);
+
+  useEffect(() => {
+    async function load() {
+      const bookings = await fetchBookings();
+
+      const past = [];
+      const upcoming = [];
+      bookings.forEach((b) => {
+        // if (b.end_time < Date.now()) past.push(b);
+        // else upcoming.push(b);
+
+        upcoming.push(b);
+      });
+
+      setUpcomingBookingsList(upcoming);
+      setPastBookingsList(past);
+      setLoaded(true);
+    }
+
+    load();
+  }, []);
 
   return (
     <View className="p-4" style={ManageBookingStyles.backgroundColor}>
@@ -221,18 +252,14 @@ export default function Booking({ navigation }) {
       />
       {bookingsType === "Upcoming" ? (
         <UpcomingBookingList
-          setBookingsList={setBookingsList}
-          bookingsList={bookingsList}
+          bookingsList={upcomingBookingsList}
           loaded={loaded}
-          setLoaded={setLoaded}
           navigation={navigation}
         />
       ) : (
         <PastBookingList
-          setBookingsList={setBookingsList}
-          bookingsList={bookingsList}
+          bookingsList={pastBookingsList}
           loaded={loaded}
-          setLoaded={setLoaded}
           navigation={navigation}
         />
       )}

@@ -4,7 +4,27 @@ import { TouchableOpacity } from "react-native";
 import { MapPin, Seal, Tag } from "phosphor-react-native";
 import MapView from "react-native-maps";
 
-export default function UpcomingBooking({ booking, navigation }) {
+export default function UpcomingBooking({ navigation, route }) {
+  const { appointment, shop } = route.params.booking;
+  console.log("ap", appointment);
+  console.log("sh", shop);
+
+  // 11 -> 11:00
+  function parseTime(time) {
+    if (time.length === 4) return time;
+    else return `${time}:00`;
+  }
+
+  function parseDate(date) {
+    const dateObj = new Date(date);
+    const options = {
+      year: "2-digit",
+      month: "2-digit",
+      day: "numeric",
+    };
+    return dateObj.toLocaleDateString("en", options);
+  }
+
   return (
     <ScrollView
       className="p-5 flex-1 flex flex-col space-y-4"
@@ -24,24 +44,23 @@ export default function UpcomingBooking({ booking, navigation }) {
           </Text>
         </TouchableOpacity>
         <Text className="font-bold text-2xl text-center">
-          25/1/24 10:00 - 11:00
+          {parseDate(appointment.date)} {parseTime(appointment.start_time)} -{" "}
+          {parseTime(appointment.end_time)}
         </Text>
       </View>
 
       <View className="flex flex-col space-y-2">
         <View className="flex flex-row gap-2">
           <Seal weight="fill" color={iconColor} size={15} />
-          <Text>Manicure and hand spa</Text>
+          <Text>{appointment.service_name}</Text>
         </View>
         <View className="flex flex-row gap-2">
           <MapPin weight="fill" color={iconColor} size={15} />
-          <Text className="flex-1">
-            Chuan Spa & Massage Hong Kong 「川」水療中心
-          </Text>
+          <Text className="flex-1">{shop.shop_name}</Text>
         </View>
         <View className="flex flex-row gap-2">
           <Tag weight="fill" color={iconColor} size={15} />
-          <Text>$ 150</Text>
+          <Text>$ TODO</Text>
         </View>
       </View>
 
@@ -63,9 +82,7 @@ export default function UpcomingBooking({ booking, navigation }) {
       <View className="flex flex-row gap-2">
         <MapPin weight="fill" color={iconColor} size={15} />
         <View className="flex flex-col flex-1">
-          <Text>
-            Tak Woo House, 1 Wo On Lane. , 9Floor, Hong Kong, Hong Kong
-          </Text>
+          <Text>{shop.location}</Text>
           <Text style={ManageBookingStyles.primaryColor} className="py-2">
             Get direction
           </Text>
