@@ -22,7 +22,7 @@ const TimeSlotPicker = ({availableSlots, selectedTime, setSelectedTime, setSelec
         setSelectedEndTime(`${h}:${m}`)
     }
     return (<View style={styles.container}>
-	    <ListItem.Accordion containerStyle={{backgroundColor: "#E4E3F1", borderRadius: 5, width: 200, height: 40, padding: 5}} 
+	    <ListItem.Accordion containerStyle={{backgroundColor: "#E4E3F1", borderRadius: 5, width: 120, height: 40, padding: 5}} 
             // style={{width: "85%", justifyContent: "flex-start", alignItems: "flex-start"}}
             content={
                 <>
@@ -41,9 +41,9 @@ const TimeSlotPicker = ({availableSlots, selectedTime, setSelectedTime, setSelec
                     setSelectedTime(l)
                     getEndTime(l)
                     setExpanded(false)
-                }} containerStyle={{backgroundColor: "#ffffff", borderRadius: 5, width: 200, height: 40, padding: 10}}>
+                }} containerStyle={{backgroundColor: "#ffffff", borderRadius: 5, width: 120, height: 40, padding: 10}}>
                 <ListItem.Content >
-                    <ListItem.Title style={{alignSelf: "center"}}>{l}</ListItem.Title>
+                    <ListItem.Title style={{alignSelf: "center", fontFamily: "Rubik_400Regular"}}>{l}</ListItem.Title>
                 </ListItem.Content>
                 </ListItem>
             ))}

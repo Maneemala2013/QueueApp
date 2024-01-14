@@ -50,7 +50,7 @@ export default function BookingForm({route, navigation}) {
     console.log("shopId Booking", shopId)
     const [isLoading, setIsLoading] = useState(true)
     const [availableSlots, setAvailableSlots] = useState([])
-    const [selectedTime, setSelectedTime] = useState("Choose start time")
+    const [selectedTime, setSelectedTime] = useState("---")
     const [selectedEndTime, setSelectedEndTime] = useState("")
     const [remark, setRamark] = useState("N/A")
     // const options = {
@@ -60,6 +60,24 @@ export default function BookingForm({route, navigation}) {
 	// 	day: "numeric",
 	//   };
     const [date, setDate] = useState(new Date().toLocaleDateString('zh-hk'))
+
+    function getEndTime(l) {
+        let splitted = l.split(":")
+        // console.log(splitted)
+        let min = 0
+        min = min + (Number(splitted[0]) * 60)
+        min = min + (Number(splitted[1]))
+        min = min + convertTimeStrToMins(time)
+        // console.log(min)
+        let h = (min - min % 60 )/ 60
+        let m = min % 60
+        if (m == 0) {
+            m = "00"
+        }
+        // console.log("end h", h)
+        // console.log("end m", m)
+        setSelectedEndTime(`${h}:${m}`)
+    }
 
     async function submit(appointment) {
         let tmp = []
@@ -106,6 +124,13 @@ export default function BookingForm({route, navigation}) {
             }
         }
         setAvailableSlots(tmp)
+        if (tmp.length > 0) {
+            setSelectedTime(tmp[0])
+            getEndTime(tmp[0])
+        }
+        else {
+            setSelectedTime("---")
+        }
         console.log("availableSlots", tmp)
         return(availableSlots)
         
@@ -114,7 +139,7 @@ export default function BookingForm({route, navigation}) {
     useEffect(() => {
         setIsLoading(true)
         getSlots(date.split("/")[1]);
-        setSelectedTime("Choose Start Time")
+        // setSelectedTime("---")
     }, [date])
 
     useEffect(() => {

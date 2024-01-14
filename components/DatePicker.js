@@ -35,9 +35,9 @@ const DatePicker = ({setMyDate}) => {
 	};
 
 	const options = {
-		weekday: "short",
+		// weekday: "short",
 		year: "numeric",
-		month: "short",
+		month: "numeric",
 		day: "numeric",
 	  };
 
