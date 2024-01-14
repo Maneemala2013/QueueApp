@@ -1,10 +1,4 @@
-import ShopOverview from "../screens/ShopOverview.js";
-import MoreInfo from "../screens/MoreInfo.js";
-import RatingsAndReviews from "../screens/RatingsAndReviews.js";
-import BookingForm from "../screens/BookingForm.js";
-import SuccessfulBooking from "../screens/SuccessfulBooking.js";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "../screens/Home.js";
 import Booking from "../screens/ManageBooking/Booking.js";
 import PastBooking from "../screens/ManageBooking/PastBooking.js";
 import UpcomingBooking from "../screens/ManageBooking/UpcomingBooking.js";
@@ -21,15 +15,12 @@ export default function ManageBookingStack() {
   return (
     <>
       <Stack.Navigator
-        initialRouteName="Bookings"
-        screenOptions={
-          {
-            //   headerShown: false,
-          }
-        }
+        screenOptions={{
+          headerShown: false,
+        }}
       >
         <Stack.Screen
-          name="Home"
+          name="Booking"
           component={Booking}
           options={() => {
             return {
