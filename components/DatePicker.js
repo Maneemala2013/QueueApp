@@ -22,7 +22,7 @@ const DatePicker = ({setMyDate}) => {
 			//save local Time
 			setDate(currentDate);
 			console.log(currentDate.toLocaleDateString())
-			setMyDate(currentDate.toLocaleDateString('zh-hk', options))
+			setMyDate(currentDate.toLocaleDateString('zh-hk'))
 		}
 		// } else {
 		// 	//cancel button clicked

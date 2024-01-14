@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     },
     detailsContainer: {
         justifyContent: "center",
+        maxWidth: "96%"
     },
     infoText: {
         flexDirection: "row",

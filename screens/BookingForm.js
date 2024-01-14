@@ -47,53 +47,57 @@ export default function BookingForm({route, navigation}) {
     const price = route.params.price
     const shopName = route.params.shopName
     const timeSlot = route.params.timeSlot
-    console.log("timeSlot Booking", timeSlot)
+    console.log("shopId Booking", shopId)
     const [isLoading, setIsLoading] = useState(true)
     const [availableSlots, setAvailableSlots] = useState([])
     const [selectedTime, setSelectedTime] = useState("Choose start time")
     const [selectedEndTime, setSelectedEndTime] = useState("")
-    const options = {
-		weekday: "short",
-		year: "numeric",
-		month: "short",
-		day: "numeric",
-	  };
-    const [date, setDate] = useState(new Date().toLocaleDateString('zh-hk', options))
+    const [remark, setRamark] = useState("N/A")
+    // const options = {
+	// 	weekday: "short",
+	// 	year: "numeric",
+	// 	month: "short",
+	// 	day: "numeric",
+	//   };
+    const [date, setDate] = useState(new Date().toLocaleDateString('zh-hk'))
 
-    // async function getAvailableTimeSlots() {
-    //     let tmp = []
-    //     console.log(shopId)
-    //     await Promise.all(fetch(`http://${global.ipAddress}:8000/shop/${shopId}/`, {
-    //     method: "GET",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     })
-    //     .then((resp) => resp.json())
-    //     .then((data) => {
-    //         setAvailableTimeSlots(data.data.attributes.available_time_slot.split(",").map((t) => (Number(t))))
-    //     }).catch(error => {console.log(error)})).then(getSlots(timeSlots, time)).then(setIsLoading(false))
-    // }
+    async function submit(appointment) {
+        let tmp = []
+        console.log(shopId)
+        await Promise.all(fetch(`http://${global.ipAddress}:8000/appointment/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointment),
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log(data)
+        }).catch(error => {console.log(error)}))
+    }
 
-    async function getSlots(){
+    async function getSlots(day){
+        console.log("day", day)
         const requiredSlots = convertTimeStrToMins(time) / 30
-        console.log(requiredSlots)
         let timeSlotList = timeSlot.split(",")
         console.log("getSlots", typeof(timeSlotList))
         let tmp = []
-        for (let i = 0; i <= timeSlotList.length - requiredSlots; i++) {
+        let i = 0
+        for (i = (day-1) * 48; i <= (day-1) * 48 + 48 - requiredSlots; i++) {
             if (timeSlotList[i] > 0) {
                 let meet = true
-                for (let j = i + 1; j <= i + requiredSlots - 1; j++) {
-                    console.log(`${i}|${timeSlotList[i]}:${j}|${timeSlotList[j]}`)
+                let j = 0
+                for (j = i + 1; j <= i + requiredSlots - 1; j++) {
+                    console.log("j", j)
                     if (timeSlotList[j] == 0){
                         meet = false
                     }
                 }
                 if (meet){
                     console.log("push")
-                    // tmp.push(i)
-                    tmp.push(i % 2 == 0 ? `${i / 2}:00` : `${(i-1) / 2}:30`)
+                    tmp.push(i % 2 == 0 ? `${(i % 48) / 2}:00` : `${((i-1) % 48) / 2}:30`)
+                    console.log(`${i}|${timeSlotList[i]}:${j}|${timeSlotList[j]}`)
                 }
             // console.log(`${i}|${timeSlot[i]}:${j}|${timeSlot[j]}`)
             }
@@ -103,14 +107,15 @@ export default function BookingForm({route, navigation}) {
         }
         setAvailableSlots(tmp)
         console.log("availableSlots", tmp)
-        // setIsLoading(false)
         return(availableSlots)
         
     }
 
     useEffect(() => {
-        getSlots();
-    }, [])
+        setIsLoading(true)
+        getSlots(date.split("/")[1]);
+        setSelectedTime("Choose Start Time")
+    }, [date])
 
     useEffect(() => {
         setIsLoading(false)
@@ -146,11 +151,14 @@ export default function BookingForm({route, navigation}) {
                 <View style={styles.dateTimeFormContainer}>
                     <Text style={styles.topText}>Time</Text>
                     {/* <Text style={styles.topText}>{timeSlots}</Text> */}
-                    {!isLoading && <TimeSlotPicker availableSlots={availableSlots} selectedTime={selectedTime} setSelectedTime={setSelectedTime} setSelectedEndTime={setSelectedEndTime} time={convertTimeStrToMins(time)}/>}
+                    <View style={{ width: "80%" }}>
+                        {!isLoading && <TimeSlotPicker availableSlots={availableSlots} selectedTime={selectedTime} setSelectedTime={setSelectedTime} setSelectedEndTime={setSelectedEndTime} time={convertTimeStrToMins(time)}/>}
+                        {availableSlots.length == 0 && <Text style={styles.message}>Sorry, there is no available time slot. Please select other dates.</Text>}
+                    </View>
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.topText}>Remarks</Text>
-                    <TextInput placeholder='Enter any details you want the shop to know about you' style={styles.input}/>
+                    <TextInput placeholder='Enter any details you want the shop to know about you' style={styles.input} onChangeText={setRamark}/>
                 </View>
                 <View style={styles.inputContainer}>
                     <Text style={styles.topText}>Discount code</Text>
@@ -158,7 +166,18 @@ export default function BookingForm({route, navigation}) {
                 </View>
                 </ScrollView>
                 <View style={{ width: "100%", marginTop: 10}}>
-                <Button title={"Book Service"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => {navigation.navigate("SuccessfulBooking", {title: title, shopName: shopName, date: date, startTime: selectedTime, endTime: selectedEndTime, price: discountedPrice == -1 ? price : discountedPrice})}}></Button>
+                <Button title={"Book Service"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => {
+                    submit(
+                        {
+                            "service_name": title,
+                            "remark": remark,
+                            "user": "a70029fc-2c7f-4e96-a1ef-2eedcb079b6f",
+                            "shop": shopId,
+                            "date": date,
+                            "start_time": `${selectedEndTime}`,
+                            "end_time": `${selectedEndTime}`
+                        })
+                    navigation.navigate("SuccessfulBooking", {title: title, shopName: shopName, date: date, startTime: selectedTime, endTime: selectedEndTime, price: discountedPrice == -1 ? price : discountedPrice})}}></Button>
                 </View>
             </View>
             );
@@ -179,12 +198,12 @@ const styles = StyleSheet.create({
     dateTimeFormContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 10
+        alignItems: "flex-start",
+        marginBottom: 10,
     },
     topText: {
         fontSize: 16,
-        fontFamily: "Rubik_400Regular"
+        fontFamily: "Rubik_400Regular",
     },
     input: {
         width: "100%",
@@ -204,5 +223,10 @@ const styles = StyleSheet.create({
     inputContainer: {
         marginBottom: 10,
         rowGap: 10,
+    },
+    message: {
+        textAlign: "right",
+        fontFamily: "Rubik_400Regular",
+        color: "red"
     }
 })
