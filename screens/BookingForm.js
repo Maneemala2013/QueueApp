@@ -59,6 +59,23 @@ export default function BookingForm({route, navigation}) {
 	// 	month: "short",
 	// 	day: "numeric",
 	//   };
+    function getUpdatedSlots() {
+        let day = date.split("/")[1]
+        let h = Number(selectedTime.split(":")[0])
+        let m = Number(selectedTime.split(":")[1])
+        let start_idx = 0
+        start_idx = (day - 1) * 48 + (h * 2 + m / 30)
+        let end_idx = start_idx + convertTimeStrToMins(time)/30
+        
+        let timeSlotList = timeSlot.split(",")
+        let i = 0
+        for(i = start_idx; i < end_idx; i++) {
+            timeSlotList[i]--
+        }
+        str = timeSlotList.toString()
+        console.log("str", str)
+        return (str)
+    }
     const [date, setDate] = useState(new Date().toLocaleDateString('zh-hk'))
 
     function getEndTime(l) {
@@ -93,6 +110,8 @@ export default function BookingForm({route, navigation}) {
         .then((data) => {
             console.log(data)
         }).catch(error => {console.log(error)}))
+
+        update();
     }
 
     async function getSlots(day){
@@ -136,9 +155,41 @@ export default function BookingForm({route, navigation}) {
         
     }
 
+    async function update() {
+        let newTimeSlots = getUpdatedSlots()
+        // console.log(shopId)
+        let obj = null
+        await fetch(`http://${global.ipAddress}:8000/shop/${shopId}/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            obj = (data.data.attributes)
+            obj['available_time_slot'] = newTimeSlots
+            console.log("obj1: ", obj)
+        }).catch(error => {console.log(error)})
+        
+        fetch(`http://${global.ipAddress}:8000/shop/${shopId}/`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log("obj2: ", obj)
+            console.log("updated data: ", data)
+        }).catch(error => {console.log(error)})
+    }
+
     useEffect(() => {
         setIsLoading(true)
         getSlots(date.split("/")[1]);
+        // getStartTime()
         // setSelectedTime("---")
     }, [date])
 
@@ -196,7 +247,7 @@ export default function BookingForm({route, navigation}) {
                         {
                             "service_name": title,
                             "remark": remark,
-                            "user": "a70029fc-2c7f-4e96-a1ef-2eedcb079b6f",
+                            "user": "86fba2c2-2911-4f38-90f2-24c03db977ad",
                             "shop": shopId,
                             "date": date,
                             "start_time": `${selectedEndTime}`,
