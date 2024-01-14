@@ -253,7 +253,7 @@ export default function BookingForm({route, navigation}) {
                             "user": "86fba2c2-2911-4f38-90f2-24c03db977ad",
                             "shop": shopId,
                             "date": date,
-                            "start_time": `${selectedEndTime}`,
+                            "start_time": `${selectedTime}`,
                             "end_time": `${selectedEndTime}`
                         })
                     navigation.navigate("SuccessfulBooking", {title: title, shopName: shopName, date: date, startTime: selectedTime, endTime: selectedEndTime, price: discountedPrice == -1 ? price : discountedPrice})}}></Button>

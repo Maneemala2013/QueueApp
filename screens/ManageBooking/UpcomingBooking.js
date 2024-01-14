@@ -11,11 +11,12 @@ export default function UpcomingBooking({ navigation, route }) {
 
   // 11 -> 11:00
   function parseTime(time) {
-    if (time.length === 4) return time;
+    if (time.length === 5) return time;
     else return `${time}:00`;
   }
 
   function parseDate(date) {
+    console.log("parse", date);
     const dateObj = new Date(date);
     const options = {
       year: "2-digit",
@@ -44,7 +45,8 @@ export default function UpcomingBooking({ navigation, route }) {
           </Text>
         </TouchableOpacity>
         <Text className="font-bold text-2xl text-center">
-          {parseDate(appointment.date)} {parseTime(appointment.start_time)} -{" "}
+          {/* {parseDate(appointment.date)} {parseTime(appointment.start_time)} -{" "} */}
+          15/1/24 {parseTime(appointment.start_time)} -{" "}
           {parseTime(appointment.end_time)}
         </Text>
       </View>
@@ -60,7 +62,7 @@ export default function UpcomingBooking({ navigation, route }) {
         </View>
         <View className="flex flex-row gap-2">
           <Tag weight="fill" color={iconColor} size={15} />
-          <Text>$ TODO</Text>
+          <Text>$ 150</Text>
         </View>
       </View>
 

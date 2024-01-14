@@ -22,7 +22,7 @@ import {
   Rubik_800ExtraBold,
   Rubik_900Black,
 } from "@expo-google-fonts/rubik";
-import "../Global"
+import "../Global";
 
 export default function Home({ navigation }) {
   const [search, setSearch] = useState("");
@@ -30,29 +30,32 @@ export default function Home({ navigation }) {
     setSearch(search);
   };
 
-  const [shopData, setShopData] = useState([])
+  const [shopData, setShopData] = useState([]);
   function getShopData() {
     // http://<IP_ADDRESS>:<IP_ADDRESS>/path/
-		fetch(`http://${global.ipAddress}:8000/shop/`, {
-		  method: "GET",
-		  headers: {
-		    "Content-Type": "application/json",
-		  },
-		  // body: JSON.stringify(shop),
-		})
-		  .then((resp) => resp.json())
-		  .then((shop) => {
+    fetch(`http://${global.ipAddress}:8000/shop/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify(shop),
+    })
+      .then((resp) => resp.json())
+      .then((shop) => {
         // console.log(shop.data)
-        tmp = shop.data
-        a = []
+        tmp = shop.data;
+        a = [];
         tmp.map((s) => {
-          b = s.attributes
-          b['id'] = s.id
-          a.push(b)
-        })
-        setShopData(a)
-		    console.log(shopData);
-		  }).catch(error => {console.log(error)});
+          b = s.attributes;
+          b["id"] = s.id;
+          a.push(b);
+        });
+        setShopData(a);
+        console.log(shopData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   let [fontsLoaded] = useFonts({
@@ -61,10 +64,10 @@ export default function Home({ navigation }) {
     Rubik_800ExtraBold,
     Rubik_900Black,
   });
-  
+
   useEffect(() => {
     getShopData();
-  }, [])
+  }, []);
 
   if (!fontsLoaded) {
     return <ScrollView style={styles.container}></ScrollView>;
@@ -105,23 +108,21 @@ export default function Home({ navigation }) {
                 fontFamily: "Rubik_600SemiBold",
               }}
             >
-              You have 1 booking today
+              You have 1 booking coming up
             </Text>
             <View style={styles.infoText}>
               <Info />
-              <Text style={styles.regularText}>
-                {"\t"}Mon - Thu 10:00 - 20:00
-              </Text>
+              <Text style={styles.regularText}>{"\t"}Thu 14:00 - 15:00</Text>
             </View>
             <View style={styles.infoText}>
               <Seal />
               <Text style={styles.regularText}>
-                {"\t"}Manicure and hand spa
+                {"\t"}Ladies Cut & Finish with Stylist
               </Text>
             </View>
             <View style={styles.infoText}>
               <MapPin />
-              <Text style={styles.regularText}>{"\t"}Oh La La Nails</Text>
+              <Text style={styles.regularText}>{"\t"}Love Hair Salon</Text>
             </View>
           </View>
           <View style={styles.category}>
@@ -153,20 +154,21 @@ export default function Home({ navigation }) {
           <View style={styles.shopNearYou}>
             <Text style={styles.headerText}>Shops near you</Text>
             {shopData.map((data, idx) => {
-                return (
-                    <ShopNearYouCard key={idx} 
-                    navigation={navigation}
-                    shopId={data.id}
-                    shopName={data.shop_name}
-                    serviceCategory={data.category}
-                    farness={data.farness}
-                    priceRange={data.price_range}
-                    star={data.rating}
-                    reviewNo={data.review_num}
-                    imageUri={data.profile_image_url}
-                    timeSlot={data.available_time_slot}
-                    />
-                );
+              return (
+                <ShopNearYouCard
+                  key={idx}
+                  navigation={navigation}
+                  shopId={data.id}
+                  shopName={data.shop_name}
+                  serviceCategory={data.category}
+                  farness={data.farness}
+                  priceRange={data.price_range}
+                  star={data.rating}
+                  reviewNo={data.review_num}
+                  imageUri={data.profile_image_url}
+                  timeSlot={data.available_time_slot}
+                />
+              );
             })}
             {/* <ShopNearYouCard
               navigation={navigation}

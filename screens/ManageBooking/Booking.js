@@ -8,6 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 function BookingCard({ booking, navigation, type }) {
   console.log("card", booking);
+  console.log("id", booking.id);
 
   return (
     <TouchableOpacity
@@ -108,6 +109,7 @@ async function fetchBookings() {
               location: location,
               shop: shop,
               appointment: res.data.attributes,
+              id: id,
             };
           });
       }

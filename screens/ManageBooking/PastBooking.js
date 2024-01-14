@@ -120,7 +120,7 @@ export default function PastBooking({ navigation, route }) {
         </View>
         <View className="flex flex-row gap-2">
           <Tag weight="fill" color={iconColor} size={15} />
-          <Text>$ TODO</Text>
+          <Text>$ 150</Text>
         </View>
 
         <View className="flex flex-row gap-2">
