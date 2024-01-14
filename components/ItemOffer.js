@@ -12,7 +12,20 @@ import {
   } from '@expo-google-fonts/rubik';
 import {Clock, Tag} from "phosphor-react-native"
 
-export default function ItemOffer({route, navigation, shopId, shopName, title, time, discountedPrice, price}) {
+function convertTimeFormat(timeStr) {
+    let dhm = timeStr.split(":")
+    // Assume that we ignore day as the required time slots should be less than 1 day
+    let h = Number(dhm[1]) == 0 ? "" : `${Number(dhm[1])} h`
+    let m = Number(dhm[2]) == 0 ? "" : `${Number(dhm[2])} m`
+    if (Number(dhm[1]) == 0) {
+        return m
+    }
+    else {
+        return (`${h} ${m}`)
+    }
+}
+export default function ItemOffer({route, navigation, serviceId, shopId, shopName, title, time, discountedPrice, price, timeSlot}) {
+    console.log("timeSlot", timeSlot)
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold
@@ -27,9 +40,9 @@ export default function ItemOffer({route, navigation, shopId, shopName, title, t
                 <View style={styles.rowContainer}>
                     <View style={styles.moreInfoText}>
                         <Clock size={18} color={"#938FC7"} weight="fill"/>
-                        <Text style={styles.text}>{'\t'}{time}</Text>
+                        <Text style={styles.text}>{'\t'}{convertTimeFormat(time)}</Text>
                     </View>
-                    <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}} onPress={() => {navigation.navigate("BookingForm", {name: title, shopId: shopId, shopName: shopName, time: time, discountedPrice: discountedPrice, price: price})}}>
+                    <Button radius={"md"} title="Book" type="outline" buttonStyle={{backgroundColor: "#ffffff", borderColor: "tomato"}} onPress={() => {navigation.navigate("BookingForm", {name: title, serviceId: serviceId, shopId: shopId, shopName: shopName, time: time, discountedPrice: discountedPrice, price: price, timeSlot: timeSlot})}}>
                         <Text style={{fontFamily: "Rubik_600SemiBold", fontSize: 16}}>Book</Text>
                     </Button>
                 </View>

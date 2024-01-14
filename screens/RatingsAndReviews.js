@@ -22,7 +22,8 @@ export default function RatingsAndReviews({route, navigation}) {
     const star = route.params.star
     const reviewNo = route.params.reviewNo
     const initialArr = [{star: 5, val: 43}, {star: 4, val: 20}, {star: 3, val: 30}, {star: 2, val: 5}, {star: 1, val: 2}]
-    
+    const timeSlot = route.params.timeSlot
+
     let [fontsLoaded] = useFonts({
         Rubik_400Regular,
         Rubik_600SemiBold,
@@ -64,7 +65,7 @@ export default function RatingsAndReviews({route, navigation}) {
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. "}/>
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"Habcd"}/>
             <ReviewsCard givenStar={5} date={"1/10/23"} writer={"Tiffany Lo"} comments={"At vero eos et accusamus "}/>
-            <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, shopId: shopId, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}></Button>
+            <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, shopId: shopId, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo, timeSlot: timeSlot})}></Button>
         </ScrollView>
     );
     }

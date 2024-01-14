@@ -12,6 +12,7 @@ import {
     Rubik_800ExtraBold,
     Rubik_900Black,
   } from '@expo-google-fonts/rubik';
+import "../Global"
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,9 @@ export default function ShopOverview({route, navigation}) {
     const farness = route.params.farness
     const star = route.params.star
     const reviewNo = route.params.reviewNo
+    const timeSlot = route.params.timeSlot
+
+    console.log("timeSlot ShopOverview: ", timeSlot)
 
     const [serviceList, setServiceList] = useState([])
     const [isLoading, setLoading] = useState(true);
@@ -30,7 +34,7 @@ export default function ShopOverview({route, navigation}) {
         // console.log(shopId)
         let tmp = []
         let tmp2 = []
-        await fetch(`http://127.0.0.1:8000/shop/${shopId}/`, {
+        await fetch(`http://${global.ipAddress}:8000/shop/${shopId}/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -49,7 +53,7 @@ export default function ShopOverview({route, navigation}) {
         await Promise.all(tmp.map(async (service, idx) => {
             // console.log(service)
             console.log("2")
-            await fetch(`http://127.0.0.1/:8000/service/${service}/`, {
+            await fetch(`http://${global.ipAddress}:8000/service/${service}/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,7 +76,6 @@ export default function ShopOverview({route, navigation}) {
 
     useEffect(() => {
         getServiceList();
-        
     }, [])
 
     let [fontsLoaded] = useFonts({
@@ -101,7 +104,7 @@ export default function ShopOverview({route, navigation}) {
                             <Info/>
                             <Text style={styles.topText}>{'\t'}More info</Text>
                         </View>
-                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: "More Info", shopId: shopId, shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
+                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("MoreInfo", {name: "More Info", shopId: shopId, shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo, timeSlot: timeSlot})}}>
                             <ArrowRight color="#E56014" weight="bold"/>
                         </Button>
                     </View>
@@ -110,7 +113,7 @@ export default function ShopOverview({route, navigation}) {
                             <Star/>
                             <Text style={styles.topText}>{'\t'}{star} {reviewNo != 0 ? `(${reviewNo} reviews)` : "(new shop!)" }</Text>
                         </View>
-                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: "Ratings and Reviews", shopId: shopId, shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}}>
+                        <Button radius={"lg"} title="Book" type="clear" buttonStyle={{backgroundColor: "transparent", borderColor: "tomato", alignItems: "center"}} onPress={() => {navigation.navigate("RatingsAndReviews", {name: "Ratings and Reviews", shopId: shopId, shopName: shopName, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo, timeSlot: timeSlot})}}>
                             <ArrowRight color="#E56014" weight="bold"/>
                         </Button>
                     </View>
@@ -119,26 +122,17 @@ export default function ShopOverview({route, navigation}) {
                     <Text style={styles.headerText}>Promotion</Text>
                     {serviceList.map((service, idx) => {                      
                             return(
-                                // <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
-                                service.discountedPrice > -1 && <ItemOffer key={service+idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
+                                service.discountedPrice > -1 && <ItemOffer key={service+idx} navigation={navigation} serviceId={service.id} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} timeSlot={timeSlot}/>
                         )
                     })}
-                     {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} /> */}
-                     {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} />  */}
                 </View>
                 <View style={styles.sectionContainer}>
                     <Text style={styles.headerText}>Service Items</Text>
-                    {/* {serviceList.map((service, idx) => {
-                        return(service.discountedPrice <= -1 && <ItemOffer key={service+idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />)
-                    })} */}
                     {serviceList.map((service, idx) => {                      
                             return(
-                                // <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Hand and feet spa 2 for 1" time="1h 30m" discountedPrice={150} price={300} />
-                                service.discountedPrice == -1 && <ItemOffer key={service+idx} navigation={navigation} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} />
+                                service.discountedPrice == -1 && <ItemOffer key={service+idx} navigation={navigation} serviceId={service.id} shopId={shopId} shopName={shopName} title={service.service_name} time={service.duration} discountedPrice={service.discountedPrice} price={service.price} timeSlot={timeSlot}/>
                         )
                     })}
-                    {/* <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Signature Gel Manicure with Chrome Powder / Cat Eye" time="1h 30m" discountedPrice={-1} price={150} />
-                    <ItemOffer navigation={navigation} shopId={shopId} shopName={shopName} title="Manicure" time="1h 30m" discountedPrice={-1} price={150} /> */}
                 </View>
             </ScrollView>
             </IconContext.Provider>

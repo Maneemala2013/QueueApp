@@ -10,7 +10,7 @@ import moment from "moment";
 import "moment/locale/zh-hk";
 moment.locale("zh-hk");
 
-const DatePicker = () => {
+const DatePicker = ({setMyDate}) => {
 	const [date, setDate] = useState(new Date());
 	const [visible, setVisible] = useState(false);
 
@@ -21,6 +21,8 @@ const DatePicker = () => {
 			const currentDate = selectedDate;
 			//save local Time
 			setDate(currentDate);
+			console.log(currentDate.toLocaleDateString())
+			setMyDate(currentDate.toLocaleDateString('zh-hk', options))
 		}
 		// } else {
 		// 	//cancel button clicked
@@ -41,7 +43,7 @@ const DatePicker = () => {
 
 	// {newValue, display}
 	return (<View>
-	<Button onPress={showDialog} title={date.toLocaleDateString('zh-hk', options)} buttonStyle={{backgroundColor: "#E4E3F1", borderRadius: 5}} titleStyle={{color: "black", fontFamily: "Rubik_400Regular"}}></Button>
+	<Button onPress={showDialog} title={date.toLocaleDateString('zh-hk', options)} buttonStyle={{backgroundColor: "#E4E3F1", borderRadius: 5, height: 40}} titleStyle={{color: "black", fontFamily: "Rubik_400Regular"}}></Button>
 	{visible && <DateTimePicker
 					testID="dateTimePicker"
 					value={date}

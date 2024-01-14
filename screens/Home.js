@@ -22,6 +22,7 @@ import {
   Rubik_800ExtraBold,
   Rubik_900Black,
 } from "@expo-google-fonts/rubik";
+import "../Global"
 
 export default function Home({ navigation }) {
   const [search, setSearch] = useState("");
@@ -32,7 +33,7 @@ export default function Home({ navigation }) {
   const [shopData, setShopData] = useState([])
   function getShopData() {
     // http://<IP_ADDRESS>:<IP_ADDRESS>/path/
-		fetch("http://127.0.0.1:8000/shop/", {
+		fetch(`http://${global.ipAddress}:8000/shop/`, {
 		  method: "GET",
 		  headers: {
 		    "Content-Type": "application/json",
@@ -163,6 +164,7 @@ export default function Home({ navigation }) {
                     star={data.rating}
                     reviewNo={data.review_num}
                     imageUri={data.profile_image_url}
+                    timeSlot={data.available_time_slot}
                     />
                 );
             })}

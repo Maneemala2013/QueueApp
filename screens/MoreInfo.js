@@ -14,6 +14,7 @@ import {
     Rubik_400Regular,
     Rubik_600SemiBold,
   } from '@expo-google-fonts/rubik';
+import "../Global"
 
 export default function MoreInfo({route, navigation}) {
     const shopId = route.params.shopId
@@ -22,6 +23,7 @@ export default function MoreInfo({route, navigation}) {
     const farness = route.params.farness
     const star = route.params.star
     const reviewNo = route.params.reviewNo
+    const timeSlot = route.params.timeSlot
 
     const onRegionChange = (region) => {
         console.log(region)
@@ -32,7 +34,7 @@ export default function MoreInfo({route, navigation}) {
 
     function getShopInfo() {
             console.log(shopId)
-            fetch(`http://127.0.0.1:8000/shop/${shopId}/`, {
+            fetch(`http://${global.ipAddress}:8000/shop/${shopId}/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -78,16 +80,6 @@ export default function MoreInfo({route, navigation}) {
                             <Clock/>
                             <Text style={styles.text}>{shopInfo.working_hour}</Text>
                         </View>
-                        {/* {workingHours.map((working_hour, idx) => {
-                            return (
-                            <View style={styles.infoText}>
-                                <Clock/>
-                                <Text style={styles.text}>{working_hour}</Text>
-                            </View>)})} */}
-                        {/* <View style={styles.infoText}>
-                            <Clock color="transparent"/>
-                            <Text style={styles.text}>Fri - Sun 10:00 - 22:00</Text>
-                        </View> */} 
                     </View>
                     <View style={styles.section}>
                         <View style={styles.infoText}>
@@ -151,7 +143,7 @@ export default function MoreInfo({route, navigation}) {
                         </View>
                     </View>
                 </View>
-                <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, shopId: shopId, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo})}></Button>
+                <Button title={"Back to Shop"} buttonStyle={{backgroundColor: "#EC7632", width: "100%", borderRadius: 10, marginTop: 15}} titleStyle={{fontSize: 16, fontFamily: "Rubik_600SemiBold"}} onPress={() => navigation.navigate("ShopOverview", {name: shopName, shopId: shopId, serviceCategory: serviceCategory, farness: farness, star: star, reviewNo: reviewNo, timeSlot: timeSlot})}></Button>
             </ScrollView>  
         </IconContext.Provider>
         );
