@@ -65,22 +65,25 @@ function RateThis() {
 }
 
 export default function PastBooking({ navigation, route }) {
-  const { appointment, shop } = route.params.booking;
+  const { shop } = route.params.booking;
+  const appointment = route.params.booking;
 
   // 11 -> 11:00
   function parseTime(time) {
-    if (time.length === 4) return time;
+    if (time.length === 5) return time;
     else return `${time}:00`;
   }
 
   function parseDate(date) {
+    // TODO: use date time format in backend
     const dateObj = new Date(date);
     const options = {
       year: "2-digit",
       month: "2-digit",
       day: "numeric",
     };
-    return dateObj.toLocaleDateString("en", options);
+    // return dateObj.toLocaleDateString("en", options);
+    return "TODO";
   }
 
   return (

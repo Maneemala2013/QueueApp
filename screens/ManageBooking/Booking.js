@@ -7,9 +7,6 @@ import { BACKEND, USER_ID } from "../../demoConfig";
 import { useFocusEffect } from "@react-navigation/native";
 
 function BookingCard({ booking, navigation, type }) {
-  console.log("card", booking);
-  console.log("id", booking.id);
-
   return (
     <TouchableOpacity
       key={booking.id}
@@ -102,13 +99,10 @@ async function fetchBookings() {
             );
 
             return {
-              end_time: res.data.attributes.end_time,
-              start_time: res.data.attributes.start_time,
-              service_name: res.data.attributes.service_name,
+              ...res.data.attributes,
               shop_name: shop_name,
               location: location,
               shop: shop,
-              appointment: res.data.attributes,
               id: id,
             };
           });
@@ -228,13 +222,14 @@ export default function Booking({ navigation }) {
     async function load() {
       const bookings = await fetchBookings();
 
+      console.log("bookings:", bookings);
+
       const past = [];
       const upcoming = [];
       bookings.forEach((b) => {
         // if (b.end_time < Date.now()) past.push(b);
         // else upcoming.push(b);
-
-        upcoming.push(b);
+        past.push(b);
       });
 
       setUpcomingBookingsList(upcoming);

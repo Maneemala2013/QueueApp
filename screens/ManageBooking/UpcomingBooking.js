@@ -5,9 +5,9 @@ import { MapPin, Seal, Tag } from "phosphor-react-native";
 import MapView from "react-native-maps";
 
 export default function UpcomingBooking({ navigation, route }) {
-  const { appointment, shop } = route.params.booking;
+  const { shop } = route.params.booking;
+  const appointment = route.params.booking;
   console.log("ap", appointment);
-  console.log("sh", shop);
 
   // 11 -> 11:00
   function parseTime(time) {
@@ -16,14 +16,15 @@ export default function UpcomingBooking({ navigation, route }) {
   }
 
   function parseDate(date) {
-    console.log("parse", date);
+    // TODO: standardize date format in backend
     const dateObj = new Date(date);
     const options = {
       year: "2-digit",
       month: "2-digit",
       day: "numeric",
     };
-    return dateObj.toLocaleDateString("en", options);
+    // return dateObj.toLocaleDateString("en", options);
+    return "TODO";
   }
 
   return (
@@ -45,8 +46,7 @@ export default function UpcomingBooking({ navigation, route }) {
           </Text>
         </TouchableOpacity>
         <Text className="font-bold text-2xl text-center">
-          {/* {parseDate(appointment.date)} {parseTime(appointment.start_time)} -{" "} */}
-          15/1/24 {parseTime(appointment.start_time)} -{" "}
+          {parseDate(appointment.date)} {parseTime(appointment.start_time)} -{" "}
           {parseTime(appointment.end_time)}
         </Text>
       </View>
@@ -76,7 +76,7 @@ export default function UpcomingBooking({ navigation, route }) {
             className="font-bold tracking-[15] text-4xl text-center"
             style={ManageBookingStyles.primaryColor}
           >
-            14ER8Q
+            {appointment.id.slice(0, 6)}
           </Text>
         </View>
       </View>
